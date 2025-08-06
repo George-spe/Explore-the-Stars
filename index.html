@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANET | Interstellar Web3 Ecosystem</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- 星空粒子背景 -->
+    <div id="particles-js"></div>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">PLANET</span>
+                <span class="logo-subtext">Interstellar Web3</span>
+            </div>
+            
+            <nav class="nav">
+                <button id="connect-wallet" class="wallet-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span class="btn-text">Connect Wallet</span>
+                </button>
+                
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#" id="airdrop-link">Airdrop</a></li>
+                    <li><a href="#" id="rewards-link">Invite Rewards</a></li>
+                    <li><a href="#" id="ecosystem-link">Ecosystem</a></li>
+                    <li><a href="#" id="contact-link">Contact Us</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- 主要内容区 -->
+        <main class="main-content">
+            <section class="hero">
+                <h1 class="hero-title">Explore the Interstellar Web3 Universe</h1>
+                <p class="hero-subtitle">Join the PLANET ecosystem and be part of the decentralized future</p>
+                <button id="explore-btn" class="cta-btn">Begin Exploration</button>
+            </section>
+        </main>
+    </div>
+    
+    <!-- 语言切换 -->
+    <div class="language-switcher">
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="zh">中文</option>
+        </select>
+    </div>
+    
+    <!-- 模态框 -->
+    <div id="airdrop-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>PLANET Airdrop</h2>
+            <p>Pay 0.0015 BNB to receive 10,000 PLANET tokens</p>
+            <button id="claim-airdrop" class="cta-btn">Claim Airdrop</button>
+        </div>
+    </div>
+    
+    <div id="rewards-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Invitation Rewards</h2>
+            <div class="rewards-info">
+                <p><strong>1st Generation:</strong> 10% of each airdrop amount</p>
+                <p><strong>2nd Generation:</strong> 5% of each airdrop amount</p>
+                <p>Rewards are triggered when the invited user successfully claims the airdrop.</p>
+                <p>You can claim your rewards at any time.</p>
+            </div>
+            <div class="rewards-balance">
+                <h3>Your Rewards Balance:</h3>
+                <p id="rewards-amount">0 PLANET</p>
+            </div>
+            <button id="claim-rewards" class="cta-btn">Claim Rewards</button>
+        </div>
+    </div>
+    
+    <div id="ecosystem-modal" class="modal ecosystem-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>PLANET Ecosystem</h2>
+            <div class="ecosystem-tabs">
+                <button class="tab-btn active" data-tab="cross-chain">Cross-Chain Interoperability</button>
+                <button class="tab-btn" data-tab="governance">Interstellar Governance</button>
+                <button class="tab-btn" data-tab="transactions">Light-Speed Transactions</button>
+                <button class="tab-btn" data-tab="gaming">Interstellar Chain Games</button>
+            </div>
+            
+            <div class="tab-content active" id="cross-chain">
+                <h3>Cross-Chain Interoperability</h3>
+                <p>Our cross-chain technology allows seamless asset and data transfer between different blockchains, creating a truly interconnected Web3 universe.</p>
+                <ul>
+                    <li>Bridge assets between Ethereum, BSC, Polygon and more</li>
+                    <li>Decentralized cross-chain communication protocol</li>
+                    <li>Secure and trustless interoperability</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="governance">
+                <h3>Interstellar Governance</h3>
+                <p>A decentralized governance system that allows PLANET holders to vote on ecosystem development and decisions.</p>
+                <ul>
+                    <li>On-chain voting with PLANET tokens</li>
+                    <li>Proposal submission and discussion platform</li>
+                    <li>Transparent and tamper-proof governance records</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="transactions">
+                <h3>Light-Speed Transactions</h3>
+                <p>Our proprietary consensus algorithm enables near-instant transaction finality with minimal fees.</p>
+                <ul>
+                    <li>Sub-second transaction confirmation</li>
+                    <li>Micro-fee structure</li>
+                    <li>Scalable to millions of TPS</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="gaming">
+                <h3>Interstellar Chain Games</h3>
+                <p>A metaverse of blockchain-based games where assets are truly owned by players and can be traded across games.</p>
+                <ul>
+                    <li>NFT-based game assets</li>
+                    <li>Play-to-earn mechanics</li>
+                    <li>Cross-game asset interoperability</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="cta-btn">Send Message</button>
+            </form>
+            <!-- 邮箱联系位置 -->
+            <div class="email-contact">
+                <p>Or email us directly at: <span id="contact-email">[您的邮箱地址]</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
