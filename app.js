@@ -26,7 +26,6 @@ const translations = {
         governance: "Interstellar Governance",
         transactions: "Light-Speed Transactions",
         gaming: "Interstellar Chain Games",
-        // 新增生态系统内容翻译
         crossChainContent: {
             title: "Cross-Chain Interoperability",
             desc: "Our cross-chain technology allows seamless asset and data transfer between different blockchains, creating a truly interconnected Web3 universe.",
@@ -90,7 +89,6 @@ const translations = {
         governance: "星間ガバナンス",
         transactions: "光速取引",
         gaming: "星間チェーンゲーム",
-        // 新增生态系统内容翻译
         crossChainContent: {
             title: "クロスチェーン相互運用性",
             desc: "私たちのクロスチェーン技術により、異なるブロックチェーン間でシームレスな資産とデータ転送が可能になり、真に相互接続されたWeb3宇宙が実現します。",
@@ -154,10 +152,9 @@ const translations = {
         governance: "성간 거버넌스",
         transactions: "광속 거래",
         gaming: "성간 체인 게임",
-        // 新增生态系统内容翻译
         crossChainContent: {
             title: "크로스체인 상호운용성",
-            desc: "우리의 크로스체인 기술은 서로 다른 블록체인 간의 원활한 자산 및 데이터 전송을 가능하게 하여 진정으로 상호 연결된 Web3 우주를 만듭니다.",
+            desc: "우리의 크로스체인 기술은 서로 다른 블록체인 간의 원활한 자산 및 데이터 전송을 가능하게 하여 진정으로 상호 연결된 Web3 우주를 만듭니다。",
             points: [
                 "이더리움, BSC, 폴리곤 등 간의 자산 브리지",
                 "탈중앙화 크로스체인 통신 프로토콜",
@@ -218,7 +215,6 @@ const translations = {
         governance: "Gobernanza Interestelar",
         transactions: "Transacciones a Velocidad de la Luz",
         gaming: "Juegos de Cadena Interestelares",
-        // 新增生态系统内容翻译
         crossChainContent: {
             title: "Interoperabilidad entre Cadenas",
             desc: "Nuestra tecnología entre cadenas permite la transferencia perfecta de activos y datos entre diferentes blockchains, creando un universo Web3 verdaderamente interconectado.",
@@ -282,7 +278,6 @@ const translations = {
         governance: "Gouvernance Interstellaire",
         transactions: "Transactions à la Vitesse de la Lumière",
         gaming: "Jeux sur Chaîne Interstellaires",
-        // 新增生态系统内容翻译
         crossChainContent: {
             title: "Interopérabilité Multi-Chaîne",
             desc: "Notre technologie inter-chaînes permet un transfert transparent d'actifs et de données entre différentes blockchains, créant un univers Web3 véritablement interconnecté.",
@@ -346,7 +341,6 @@ const translations = {
         governance: "星际治理",
         transactions: "光速交易",
         gaming: "星际链游",
-        // 新增生态系统内容翻译
         crossChainContent: {
             title: "跨链互操作",
             desc: "我们的跨链技术允许在不同区块链之间无缝传输资产和数据，创建一个真正互联的Web3宇宙。",
@@ -399,7 +393,6 @@ function initLanguage() {
 
 // 更新页面语言
 function updateLanguage() {
-    document.getElementById('language-select').value = currentLanguage;
     const lang = translations[currentLanguage];
     
     // 更新导航
@@ -469,12 +462,27 @@ function updateEcosystemContent(lang) {
     });
 }
 
-// 语言切换事件
-document.getElementById('language-select').addEventListener('change', function() {
-    currentLanguage = this.value;
-    localStorage.setItem('planetLanguage', currentLanguage);
-    updateLanguage();
-});
+// 改进的语言切换事件处理
+function initLanguageSwitcher() {
+    const languageSelect = document.getElementById('language-select');
+    
+    // 使用更可靠的事件监听方式
+    languageSelect.addEventListener('change', function() {
+        currentLanguage = this.value;
+        localStorage.setItem('planetLanguage', currentLanguage);
+        updateLanguage();
+    });
+    
+    // 添加点击事件作为备用
+    languageSelect.addEventListener('click', function(e) {
+        e.stopPropagation(); // 防止事件冒泡
+    });
+    
+    // 确保选择框在DAPP浏览器中可以正常工作
+    document.addEventListener('click', function() {
+        languageSelect.blur();
+    });
+}
 
 // 初始化粒子背景
 function initParticles() {
@@ -855,6 +863,7 @@ function initContactForm() {
 document.addEventListener('DOMContentLoaded', () => {
     initParticles();
     initLanguage();
+    initLanguageSwitcher(); // 使用改进的语言切换初始化
     initModals();
     initWallet();
     initAirdrop();
