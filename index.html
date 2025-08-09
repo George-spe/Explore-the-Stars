@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANET | Interstellar Web3 Ecosystem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 基础样式 */
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --dark-color: #0f0f1a;
+            --light-color: #e0e0ff;
+            --accent-color: #6a5acd;
+            --text-color: #ffffff;
+            --text-secondary: #b8b8ff;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #000428, #004e92);
+        }
+
+        /* 星空背景 */
+        .stars, .twinkling {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: -2;
+        }
+
+        .stars {
+            background: #000 url('https://i.imgur.com/YKY28eT.png') repeat top center;
+            z-index: -2;
+        }
+
+        .twinkling {
+            background: transparent url('https://i.imgur.com/XYMF4ca.png') repeat top center;
+            z-index: -1;
+            animation: twinkle 200s linear infinite;
+        }
+
+        @keyframes twinkle {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 5000px; }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: -1;
+        }
+
+        /* 语言切换 */
+        .language-switcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(78, 84, 200, 0.4);
+            color: white;
+            border: 1px solid var(--accent-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(143, 148, 251, 0.7);
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(78, 84, 200, 0.6);
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 头部 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .logo-subtext {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        /* 导航 */
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .wallet-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .wallet-btn i {
+            margin-right: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 30px;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* 主要内容 */
+        .main-content {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #b8b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cta-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: linear-gradient(to bottom right, #0f0f1a, #1a1a2e);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-color);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+            background-image: url('https://i.imgur.com/YKY28eT.png');
+            background-size: cover;
+            background-blend-mode: overlay;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--text-color);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* 奖励模态框 */
+        .rewards-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .rewards-info p {
+            margin-bottom: 10px;
+        }
+
+        .rewards-balance {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .rewards-balance h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        #rewards-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        /* 生态系统模态框 */
+        .ecosystem-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .ecosystem-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-color);
+        }
+
+        .tab-btn.active {
+            color: var(--secondary-color);
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .tab-content p {
+            margin-bottom: 15px;
+        }
+        
+        .tab-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tab-content li {
+            margin-bottom: 10px;
+        }
+
+        /* 白皮书样式 */
+        .whitepaper-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .whitepaper-section {
+            margin-bottom: 30px;
+        }
+
+        .whitepaper-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 8px;
+        }
+
+        .whitepaper-section ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .whitepaper-section li {
+            margin-bottom: 8px;
+        }
+
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .partner-logo {
+            width: 100px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        /* 代币分配样式 */
+        .token-allocation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .token-category {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid var(--accent-color);
+        }
+        
+        .token-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .token-title {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        
+        .token-percentage {
+            font-weight: bold;
+        }
+        
+        .token-uses {
+            padding-left: 15px;
+        }
+        
+        .token-uses li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .token-uses li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        /* 倒计时样式 */
+        .cooldown-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+        }
+
+        .cooldown-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--secondary-color);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            transition: width 1s linear;
+        }
+
+        /* 提示信息样式 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            z-index: 2000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: var(--success-color);
+            border-left: 4px solid #388e3c;
+        }
+
+        .notification.error {
+            background: var(--error-color);
+            border-left: 4px solid #d32f2f;
+        }
+
+        .notification.warning {
+            background: var(--warning-color);
+            border-left: 4px solid #f57c00;
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* 统计表格样式 */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stats-table th, .stats-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stats-table th {
+            background: rgba(78, 84, 200, 0.5);
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .stats-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stats-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(15, 15, 26, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li {
+                margin: 20px 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                z-index: 101;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .wallet-btn {
+                margin-right: 0;
+            }
+            
+            .btn-text {
+                display: none;
+            }
+            
+            .token-allocation {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .ecosystem-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: left;
+                padding: 10px;
+            }
+        }
+
+        /* RTL语言支持 */
+        [dir="rtl"] {
+            direction: rtl;
+            text-align: right;
+        }
+
+        [dir="rtl"] .logo {
+            text-align: right;
+        }
+
+        [dir="rtl"] .nav-menu {
+            padding-right: 0;
+        }
+
+        [dir="rtl"] .form-group input,
+        [dir="rtl"] .form-group textarea {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空粒子背景 -->
+    <div id="particles-js"></div>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <!-- 通知容器 -->
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle"></i>
+        <span id="notification-text"></span>
+    </div>
+    
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">PLANET</span>
+                <span class="logo-subtext">Interstellar Web3</span>
+            </div>
+            
+            <nav class="nav">
+                <button id="connect-wallet" class="wallet-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span class="btn-text">Connect Wallet</span>
+                </button>
+                
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#" id="airdrop-link">Airdrop</a></li>
+                    <li><a href="#" id="rewards-link">Invite Rewards</a></li>
+                    <li><a href="#" id="ecosystem-link">Ecosystem</a></li>
+                    <li><a href="#" id="whitepaper-link">Whitepaper</a></li>
+                    <li><a href="#" id="contact-link">Contact Us</a></li>
+                    <li><a href="#" id="stats-link" style="display: none;">Statistics</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- 主要内容区 -->
+        <main class="main-content">
+            <section class="hero">
+                <h1 class="hero-title">Explore the Interstellar Web3 Universe</h1>
+                <p class="hero-subtitle">Join the PLANET ecosystem and be part of the decentralized future</p>
+                <button id="explore-btn" class="cta-btn">Begin Exploration</button>
+            </section>
+        </main>
+    </div>
+    
+    <!-- 语言切换 -->
+    <div class="language-switcher">
+        <button id="lang-en" class="lang-btn active">EN</button>
+        <button id="lang-zh" class="lang-btn">中文</button>
+    </div>
+    
+    <!-- 模态框 -->
+    <div id="airdrop-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="airdrop-title">PLANET Airdrop</h2>
+            <p id="airdrop-text">Pay 0.0015 BNB to receive 10,000 PLANET tokens</p>
+            <button id="claim-airdrop" class="cta-btn">Claim Airdrop</button>
+            
+            <!-- 倒计时容器 -->
+            <div id="airdrop-cooldown" class="cooldown-container" style="display: none;">
+                <h3 class="cooldown-title" id="cooldown-title">Next Claim Available In:</h3>
+                <div class="timer-display" id="countdown-timer">12:00:00</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="cooldown-progress"></div>
+                </div>
+                <p id="cooldown-message">You can claim again after the timer expires</p>
+            </div>
+            
+            <div id="referral-section" style="margin-top: 20px; display: none;">
+                <h3 id="referral-title">Your Referral Link</h3>
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                    <input type="text" id="referral-link" readonly style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #4e54c8; background: rgba(0,0,0,0.3); color: white;">
+                    <button id="copy-referral" style="margin-left: 10px; padding: 8px 15px; background: #4e54c8; color: white; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #b8b8ff;" id="referral-info">Share this link to earn 10% from 1st generation and 5% from 2nd generation airdrops</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="rewards-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="rewards-title">Invitation Rewards</h2>
+            <div class="rewards-info">
+                <p><strong id="gen1-text">1st Generation:</strong> 10% of each airdrop amount</p>
+                <p><strong id="gen2-text">2nd Generation:</strong> 5% of each airdrop amount</p>
+                <p id="rewards-desc1">Rewards are triggered when the invited user successfully claims the airdrop.</p>
+                <p id="rewards-desc2">You can claim your rewards at any time.</p>
+            </div>
+            <div class="rewards-balance">
+                <h3 id="balance-title">Your Rewards Balance:</h3>
+                <p id="rewards-amount">0 PLANET</p>
+            </div>
+            <button id="claim-rewards" class="cta-btn">Claim Rewards</button>
+        </div>
+    </div>
+    
+    <div id="ecosystem-modal" class="modal ecosystem-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="ecosystem-title">PLANET Ecosystem</h2>
+            <div class="ecosystem-tabs">
+                <button class="tab-btn active" data-tab="cross-chain">Cross-Chain Interoperability</button>
+                <button class="tab-btn" data-tab="governance">Interstellar Governance</button>
+                <button class="tab-btn" data-tab="transactions">Light-Speed Transactions</button>
+                <button class="tab-btn" data-tab="gaming">Interstellar Chain Games</button>
+            </div>
+            
+            <div class="tab-content active" id="cross-chain">
+                <h3 id="cross-chain-title">Cross-Chain Interoperability</h3>
+                <p id="cross-chain-desc">Our cross-chain technology allows seamless asset and data transfer between different blockchains, creating a truly interconnected Web3 universe.</p>
+                <ul>
+                    <li id="cross-chain-item1">Bridge assets between Ethereum, BSC, Polygon and more</li>
+                    <li id="cross-chain-item2">Decentralized cross-chain communication protocol</li>
+                    <li id="cross-chain-item3">Secure and trustless interoperability</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="governance">
+                <h3 id="governance-title">Interstellar Governance</h3>
+                <p id="governance-desc">A decentralized governance system that allows PLANET holders to vote on ecosystem development and decisions.</p>
+                <ul>
+                    <li id="governance-item1">On-chain voting with PLANET tokens</li>
+                    <li id="governance-item2">Proposal submission and discussion platform</li>
+                    <li id="governance-item3">Transparent and tamper-proof governance records</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="transactions">
+                <h3 id="transactions-title">Light-Speed Transactions</h3>
+                <p id="transactions-desc">Our proprietary consensus algorithm enables near-instant transaction finality with minimal fees.</p>
+                <ul>
+                    <li id="transactions-item1">Sub-second transaction confirmation</li>
+                    <li id="transactions-item2">Micro-fee structure</li>
+                    <li id="transactions-item3">Scalable to millions of TPS</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="gaming">
+                <h3 id="gaming-title">Interstellar Chain Games</h3>
+                <p id="gaming-desc">A metaverse of blockchain-based games where assets are truly owned by players and can be traded across games.</p>
+                <ul>
+                    <li id="gaming-item1">NFT-based game assets</li>
+                    <li id="gaming-item2">Play-to-earn mechanics</li>
+                    <li id="gaming-item3">Cross-game asset interoperability</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 白皮书模态框 -->
+    <div id="whitepaper-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="whitepaper-title">PLANET Whitepaper</h2>
+            
+            <div class="whitepaper-content">
+                <div class="whitepaper-section">
+                    <h3 id="vision-title">Vision & Mission</h3>
+                    <p id="vision-desc1">PLANET is building the infrastructure for the next generation of decentralized applications. Our mission is to create an interconnected Web3 ecosystem that enables seamless value transfer across chains, industries, and communities.</p>
+                    <p id="vision-desc2">We envision a future where decentralized technologies empower individuals, democratize finance, and create new economic opportunities across the galaxy.</p>
+                </div>
+                
+                <div class="whitepaper-section">
+                    <h3 id="partnerships-title">Strategic Partnerships</h3>
+                    <p id="partnerships-desc">PLANET is backed by leading blockchain innovators and industry pioneers:</p>
+                    <div class="partner-logos">
+                        <div class="partner-logo">Chainlink</div>
+                        <div class="partner-logo">Polygon</div>
+                        <div class="partner-logo">Binance Labs</div>
+                        <div class="partner-logo">Coinbase Ventures</div>
+                        <div class="partner-logo">A16z Crypto</div>
+                        <div class="partner-logo">Consensys</div>
+                    </div>
+                </div>
+                
+                <div class="whitepaper-section">
+                    <h3 id="token-title">Token Economics</h3>
+                    <p id="token-desc">The PLANET token (PLNT) is the native currency of our ecosystem with the following key metrics:</p>
+                    <ul>
+                        <li><strong id="supply-label">Total Supply:</strong> 24,900,000,000 PLNT</li>
+                        <li><strong id="cap-label">Initial Market Cap:</strong> $1,000,000</li>
+                        <li><strong id="price-label">Projected Initial Listing Price:</strong> $0.001 USDT</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px; color: var(--secondary-color);" id="allocation-title">Token Allocation & Core Uses</h4>
+                    <div class="token-allocation">
+                        <div class="token-category">
+                            <div class="token-header">
+                                <span class="token-title" id="community-title">Community & User Incentives</span>
+                                <span class="token-percentage">30-40%</span>
+                            </div>
+                            <ul class="token-uses">
+                                <li id="use-1">Liquidity mining rewards</li>
+                                <li id="use-2">Ecological application incentives (DApp usage, content creation)</li>
+                                <li id="use-3">Community governance participation rewards</li>
+                                <li id="use-4">Node operation rewards</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="token-category">
+                            <div class="token-header">
+                                <span class="token-title" id="team-title">Core Team & Early Contributors</span>
+                                <span class="token-percentage">5-10%</span>
+                            </div>
+                            <ul class="token-uses">
+                                <li id="use-5">Incentives for core members to participate long-term</li>
+                                <li id="use-6">Includes founders, technical team, operations team</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="token-category">
+                            <div class="token-header">
+                                <span class="token-title" id="investment-title">Strategic Investment & Institutional Round</span>
+                                <span class="token-percentage">15-20%</span>
+                            </div>
+                            <ul class="token-uses">
+                                <li id="use-7">Introduce strategic partners, venture capital institutions</li>
+                                <li id="use-8">Obtain funding and resources</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="token-category">
+                            <div class="token-header">
+                                <span class="token-title" id="ecosystem-title">Ecosystem Development Fund</span>
+                                <span class="token-percentage">15-20%</span>
+                            </div>
+                            <ul class="token-uses">
+                                <li id="use-9">Funding for ecological project development</li>
+                                <li id="use-10">Acquisition/investment in complementary projects</li>
+                                <li id="use-11">Reserve fund to cope with market fluctuations</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="token-category">
+                            <div class="token-header">
+                                <span class="token-title" id="sale-title">Public/Private Sale & Airdrop</span>
+                                <span class="token-percentage">5-10%</span>
+                            </div>
+                            <ul class="token-uses">
+                                <li id="use-12">Financing for the public/qualified investors</li>
+                                <li id="use-13">Increase token distribution</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="whitepaper-section">
+                    <h3 id="projection-title">Price Projection</h3>
+                    <div style="margin: 20px 0; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                            <span id="initial-price">Initial Price: $0.001</span>
+                            <span id="projected-price">Projected Q4 2025: $1.00</span>
+                        </div>
+                        <div style="height: 20px; background: linear-gradient(to right, #4e54c8, #8f94fb); border-radius: 10px;"></div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px;">
+                            <span>2024</span>
+                            <span>2025</span>
+                            <span>2026</span>
+                            <span>2027</span>
+                            <span>2028</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="whitepaper-section">
+                    <h3 id="tech-title">Technical Architecture</h3>
+                    <p id="tech-desc">Our multi-layer architecture combines the best of existing blockchain technologies:</p>
+                    <ul>
+                        <li id="tech-item1">Modular consensus protocol for scalability</li>
+                        <li id="tech-item2">Zero-knowledge proofs for privacy</li>
+                        <li id="tech-item3">Optimistic rollups for cost efficiency</li>
+                        <li id="tech-item4">Inter-blockchain communication protocol</li>
+                        <li id="tech-item5">Quantum-resistant cryptography</li>
+                        <li id="tech-item6">AI-driven security monitoring</li>
+                    </ul>
+                </div>
+                
+                <div class="whitepaper-section">
+                    <h3 id="roadmap-title">Roadmap 2025-2029</h3>
+                    <p><strong id="year1-title">2025 - Foundation Year</strong></p>
+                    <ul>
+                        <li id="year1-item1">Mainnet launch with cross-chain capabilities</li>
+                        <li id="year1-item2">Token migration to PLANET native chain</li>
+                        <li id="year1-item3">First 10 dApps on PLANET ecosystem</li>
+                        <li id="year1-item4">Strategic partnerships with 5 major exchanges</li>
+                        <li id="year1-item5">Reach 100,000 active wallet addresses</li>
+                    </ul>
+                    
+                    <p><strong id="year2-title">2026 - Expansion Year</strong></p>
+                    <ul>
+                        <li id="year2-item1">Integration with traditional finance systems</li>
+                        <li id="year2-item2">Launch of PLANET DAO governance</li>
+                        <li id="year2-item3">100+ ecosystem partners</li>
+                        <li id="year2-item4">Decentralized identity solutions</li>
+                        <li id="year2-item5">Reach 1 million active users</li>
+                    </ul>
+                    
+                    <p><strong id="year3-title">2027 - Enterprise Adoption</strong></p>
+                    <ul>
+                        <li id="year3-item1">Corporate treasury management solutions</li>
+                        <li id="year3-item2">Supply chain tracking for Fortune 500 companies</li>
+                        <li id="year3-item3">Government partnership for digital identity</li>
+                        <li id="year3-item4">Carbon-neutral blockchain operations</li>
+                        <li id="year3-item5">Token price target: $0.05</li>
+                    </ul>
+                    
+                    <p><strong id="year4-title">2028 - Global Ecosystem</strong></p>
+                    <ul>
+                        <li id="year4-item1">1 billion daily transactions</li>
+                        <li id="year4-item2">Full decentralization of core protocol</li>
+                        <li id="year4-item3">Global adoption in emerging markets</li>
+                        <li id="year4-item4">Interplanetary payment network prototype</li>
+                        <li id="year4-item5">Token price target: $0.15</li>
+                    </ul>
+                    
+                    <p><strong id="year5-title">2029 - Interstellar Future</strong></p>
+                    <ul>
+                        <li id="year5-item1">AI-powered ecosystem governance</li>
+                        <li id="year5-item2">Quantum computing integration</li>
+                        <li id="year5-item3">Space-based blockchain nodes</li>
+                        <li id="year5-item4">Partnership with space agencies</li>
+                        <li id="year5-item5">Token price target: $0.30+</li>
+                    </ul>
+                </div>
+                
+                <div class="whitepaper-section">
+                    <h3 id="sustainability-title">Sustainability & Impact</h3>
+                    <p id="sustainability-desc">PLANET is committed to environmental sustainability:</p>
+                    <ul>
+                        <li id="sustainability-item1">Carbon-negative blockchain operations</li>
+                        <li id="sustainability-item2">1% of transaction fees dedicated to reforestation</li>
+                        <li id="sustainability-item3">Partnership with UN Climate Change Initiative</li>
+                        <li id="sustainability-item4">Proof-of-Stake consensus with minimal energy consumption</li>
+                        <li id="sustainability-item5">Support for green energy projects</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="contact-title">Contact Us</h2>
+            <!-- 只保留邮箱地址 -->
+            <div class="email-contact">
+                <p id="email-text">Or email us directly at: <span id="contact-email">explore.the.stars1@gmail.com</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 统计模态框 -->
+    <div id="stats-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="stats-title">Referral Statistics</h2>
+            
+            <div class="form-group">
+                <label for="admin-address">Enter Admin Address:</label>
+                <input type="text" id="admin-address" placeholder="0x000...000">
+                <button id="access-stats" class="cta-btn" style="margin-top: 10px;">Access Statistics</button>
+            </div>
+            
+            <div id="stats-content" style="display: none; margin-top: 20px;">
+                <h3>Referral Data for: <span id="ref-address"></span></h3>
+                
+                <div class="stats-summary">
+                    <div style="display: flex; justify-content: space-around; margin: 20px 0;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--secondary-color);">127</div>
+                            <div>Total Referrals</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2rem; color: var(--secondary-color);">3,850,000</div>
+                            <div>PLANET Claimed</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <table class="stats-table">
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Level</th>
+                            <th>Date Referred</th>
+                            <th>Date Claimed</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0x3a5F...c8E2</td>
+                            <td>1</td>
+                            <td>2023-10-15</td>
+                            <td>2023-10-16</td>
+                            <td>10,000</td>
+                        </tr>
+                        <tr>
+                            <td>0x9b2C...d4F7</td>
+                            <td>1</td>
+                            <td>2023-10-17</td>
+                            <td>2023-10-17</td>
+                            <td>10,000</td>
+                        </tr>
+                        <tr>
+                            <td>0x6f8A...b3D9</td>
+                            <td>2</td>
+                            <td>2023-10-18</td>
+                            <td>2023-10-19</td>
+                            <td>10,000</td>
+                        </tr>
+                        <tr>
+                            <td>0x1e7F...a5C2</td>
+                            <td>1</td>
+                            <td>2023-10-20</td>
+                            <td>2023-10-21</td>
+                            <td>10,000</td>
+                        </tr>
+                        <tr>
+                            <td>0x5d3B...e8F1</td>
+                            <td>2</td>
+                            <td>2023-10-22</td>
+                            <td>2023-10-23</td>
+                            <td>10,000</td>
+                        </tr>
+                        <tr>
+                            <td>0x8a2D...f7B4</td>
+                            <td>3</td>
+                            <td>2023-10-24</td>
+                            <td>2023-10-25</td>
+                            <td>10,000</td>
+                        </tr>
+                        <tr>
+                            <td>0x3c6E...d9A8</td>
+                            <td>1</td>
+                            <td>2023-10-26</td>
+                            <td>2023-10-27</td>
+                            <td>10,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 20px; text-align: center;">
+                    <button id="export-stats" class="cta-btn">
+                        <i class="fas fa-download"></i> Export to CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        // 智能合约地址
+        const AIRDROP_CONTRACT_ADDRESS = '0x1082a622c64f21bccb9885a469b0B84CbE4f2083'; // 替换为你的空投合约地址
+        const REWARDS_CONTRACT_ADDRESS = '0x1082a622c64f21bccb9885a469b0B84CbE4f2083'; // 替换为你的奖励合约地址
+        
+        // ABI 定义（简化版）
+        const AIRDROP_CONTRACT_ABI = [
+            {
+                "inputs": [],
+                "name": "claimAirdrop",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "claimRewards",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    }
+                ],
+                "name": "getUserInfo",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "referrer",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "rewards",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lastAirdropTime",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "canClaimAirdrop",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "users",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "referrer",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "rewards",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lastAirdropTime",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "hasClaimedAirdrop",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+        
+        const REWARDS_CONTRACT_ABI = AIRDROP_CONTRACT_ABI; // 使用相同的ABI
+
+        // 多语言支持
+        const translations = {
+            en: {
+                connectWallet: "Connect Wallet",
+                airdrop: "Airdrop",
+                rewards: "Invite Rewards",
+                ecosystem: "Ecosystem",
+                whitepaper: "Whitepaper",
+                contact: "Contact Us",
+                stats: "Statistics",
+                heroTitle: "Explore the Interstellar Web3 Universe",
+                heroSubtitle: "Join the PLANET ecosystem and be part of the decentralized future",
+                exploreBtn: "Begin Exploration",
+                airdropTitle: "PLANET Airdrop",
+                airdropText: "Pay 0.0015 BNB to receive 10,000 PLANET tokens",
+                claimAirdrop: "Claim Airdrop",
+                rewardsTitle: "Invitation Rewards",
+                rewardsText1: "1st Generation: 10% of each airdrop amount",
+                rewardsText2: "2nd Generation: 5% of each airdrop amount",
+                rewardsText3: "Rewards are triggered when the invited user successfully claims the airdrop.",
+                rewardsText4: "You can claim your rewards at any time.",
+                rewardsBalance: "Your Rewards Balance:",
+                claimRewards: "Claim Rewards",
+                contactTitle: "Contact Us",
+                sendMessage: "Send Message",
+                emailText: "Or email us directly at:",
+                crossChain: "Cross-Chain Interoperability",
+                governance: "Interstellar Governance",
+                transactions: "Light-Speed Transactions",
+                gaming: "Interstellar Chain Games",
+                whitepaperTitle: "PLANET Whitepaper",
+                cooldownTitle: "Next Claim Available In:",
+                cooldownMessage: "You can claim again after the timer expires",
+                copied: "Copied!",
+                referralDetected: "You were referred by {address}",
+                referralTitle: "Your Referral Link",
+                referralInfo: "Share this link to earn 10% from 1st generation and 5% from 2nd generation airdrops",
+                connectWalletError: "Please install MetaMask or another Web3 wallet to connect!",
+                connectWalletFirst: "Please connect your wallet first!",
+                insufficientBalance: "Insufficient BNB balance for the airdrop fee!",
+                airdropSuccess: "Airdrop claimed successfully! 10,000 PLANET tokens have been sent to your wallet.",
+                airdropError: "Error claiming airdrop: ",
+                rewardsSuccess: "Rewards claimed successfully!",
+                rewardsError: "Error claiming rewards: ",
+                formSuccess: "Thank you for your message! We will contact you soon.",
+                formError: "Please fill in all fields!",
+                statsTitle: "Referral Statistics",
+                adminPlaceholder: "Enter Admin Address",
+                accessStats: "Access Statistics",
+                exportStats: "Export to CSV",
+                
+                // Token allocation translations
+                communityTitle: "Community & User Incentives",
+                teamTitle: "Core Team & Early Contributors",
+                investmentTitle: "Strategic Investment & Institutional Round",
+                ecosystemTitle: "Ecosystem Development Fund",
+                saleTitle: "Public/Private Sale & Airdrop",
+                
+                // Token use translations
+                use1: "Liquidity mining rewards",
+                use2: "Ecological application incentives (DApp usage, content creation)",
+                use3: "Community governance participation rewards",
+                use4: "Node operation rewards",
+                use5: "Incentives for core members to participate long-term",
+                use6: "Includes founders, technical team, operations team",
+                use7: "Introduce strategic partners, venture capital institutions",
+                use8: "Obtain funding and resources",
+                use9: "Funding for ecological project development",
+                use10: "Acquisition/investment in complementary projects",
+                use11: "Reserve fund to cope with market fluctuations",
+                use12: "Financing for the public/qualified investors",
+                use13: "Increase token distribution",
+                
+                // Ecosystem translations
+                crossChainTitle: "Cross-Chain Interoperability",
+                crossChainDesc: "Our cross-chain technology allows seamless asset and data transfer between different blockchains, creating a truly interconnected Web3 universe.",
+                crossChainItem1: "Bridge assets between Ethereum, BSC, Polygon and more",
+                crossChainItem2: "Decentralized cross-chain communication protocol",
+                crossChainItem3: "Secure and trustless interoperability",
+                
+                governanceTitle: "Interstellar Governance",
+                governanceDesc: "A decentralized governance system that allows PLANET holders to vote on ecosystem development and decisions.",
+                governanceItem1: "On-chain voting with PLANET tokens",
+                governanceItem2: "Proposal submission and discussion platform",
+                governanceItem3: "Transparent and tamper-proof governance records",
+                
+                transactionsTitle: "Light-Speed Transactions",
+                transactionsDesc: "Our proprietary consensus algorithm enables near-instant transaction finality with minimal fees.",
+                transactionsItem1: "Sub-second transaction confirmation",
+                transactionsItem2: "Micro-fee structure",
+                transactionsItem3: "Scalable to millions of TPS",
+                
+                gamingTitle: "Interstellar Chain Games",
+                gamingDesc: "A metaverse of blockchain-based games where assets are truly owned by players and can be traded across games.",
+                gamingItem1: "NFT-based game assets",
+                gamingItem2: "Play-to-earn mechanics",
+                gamingItem3: "Cross-game asset interoperability",
+                
+                // Whitepaper translations
+                visionTitle: "Vision & Mission",
+                visionDesc1: "PLANET is building the infrastructure for the next generation of decentralized applications. Our mission is to create an interconnected Web3 ecosystem that enables seamless value transfer across chains, industries, and communities.",
+                visionDesc2: "We envision a future where decentralized technologies empower individuals, democratize finance, and create new economic opportunities across the galaxy.",
+                
+                partnershipsTitle: "Strategic Partnerships",
+                partnershipsDesc: "PLANET is backed by leading blockchain innovators and industry pioneers:",
+                
+                tokenTitle: "Token Economics",
+                tokenDesc: "The PLANET token (PLNT) is the native currency of our ecosystem with the following key metrics:",
+                supplyLabel: "Total Supply:",
+                capLabel: "Initial Market Cap:",
+                priceLabel: "Projected Initial Listing Price:",
+                allocationTitle: "Token Allocation & Core Uses",
+                
+                projectionTitle: "Price Projection",
+                initialPrice: "Initial Price: $0.001",
+                projectedPrice: "Projected Q4 2025: $1.00",
+                
+                techTitle: "Technical Architecture",
+                techDesc: "Our multi-layer architecture combines the best of existing blockchain technologies:",
+                techItem1: "Modular consensus protocol for scalability",
+                techItem2: "Zero-knowledge proofs for privacy",
+                techItem3: "Optimistic rollups for cost efficiency",
+                techItem4: "Inter-blockchain communication protocol",
+                techItem5: "Quantum-resistant cryptography",
+                techItem6: "AI-driven security monitoring",
+                
+                roadmapTitle: "Roadmap 2025-2029",
+                year1Title: "2025 - Foundation Year",
+                year1Item1: "Mainnet launch with cross-chain capabilities",
+                year1Item2: "Token migration to PLANET native chain",
+                year1Item3: "First 10 dApps on PLANET ecosystem",
+                year1Item4: "Strategic partnerships with 5 major exchanges",
+                year1Item5: "Reach 100,000 active wallet addresses",
+                
+                year2Title: "2026 - Expansion Year",
+                year2Item1: "Integration with traditional finance systems",
+                year2Item2: "Launch of PLANET DAO governance",
+                year2Item3: "100+ ecosystem partners",
+                year2Item4: "Decentralized identity solutions",
+                year2Item5: "Reach 1 million active users",
+                
+                year3Title: "2027 - Enterprise Adoption",
+                year3Item1: "Corporate treasury management solutions",
+                year3Item2: "Supply chain tracking for Fortune 500 companies",
+                year3Item3: "Government partnership for digital identity",
+                year3Item4: "Carbon-neutral blockchain operations",
+                year3Item5: "Token price target: $0.05",
+                
+                year4Title: "2028 - Global Ecosystem",
+                year4Item1: "1 billion daily transactions",
+                year4Item2: "Full decentralization of core protocol",
+                year4Item3: "Global adoption in emerging markets",
+                year4Item4: "Interplanetary payment network prototype",
+                year4Item5: "Token price target: $0.15",
+                
+                year5Title: "2029 - Interstellar Future",
+                year5Item1: "AI-powered ecosystem governance",
+                year5Item2: "Quantum computing integration",
+                year5Item3: "Space-based blockchain nodes",
+                year5Item4: "Partnership with space agencies",
+                year5Item5: "Token price target: $0.30+",
+                
+                sustainabilityTitle: "Sustainability & Impact",
+                sustainabilityDesc: "PLANET is committed to environmental sustainability:",
+                sustainabilityItem1: "Carbon-negative blockchain operations",
+                sustainabilityItem2: "1% of transaction fees dedicated to reforestation",
+                sustainabilityItem3: "Partnership with UN Climate Change Initiative",
+                sustainabilityItem4: "Proof-of-Stake consensus with minimal energy consumption",
+                sustainabilityItem5: "Support for green energy projects"
+            },
+            zh: {
+                connectWallet: "连接钱包",
+                airdrop: "领取空投",
+                rewards: "邀请奖励",
+                ecosystem: "社区生态",
+                whitepaper: "白皮书",
+                contact: "联系我们",
+                stats: "统计面板",
+                heroTitle: "探索星际Web3宇宙",
+                heroSubtitle: "加入PLANET生态系统，成为去中心化未来的一部分",
+                exploreBtn: "开始探索",
+                airdropTitle: "PLANET空投",
+                airdropText: "支付0.0015 BNB可获得10,000枚PLANET代币",
+                claimAirdrop: "领取空投",
+                rewardsTitle: "邀请奖励",
+                rewardsText1: "一代奖励: 每次空投额度的10%",
+                rewardsText2: "二代奖励: 每次空投额度的5%",
+                rewardsText3: "当被邀请人成功领取空投时，奖励才会触发。",
+                rewardsText4: "您可以随时领取您的奖励。",
+                rewardsBalance: "您的奖励余额:",
+                claimRewards: "领取奖励",
+                contactTitle: "联系我们",
+                sendMessage: "发送消息",
+                emailText: "或直接发送邮件至:",
+                crossChain: "跨链互操作",
+                governance: "星际治理",
+                transactions: "光速交易",
+                gaming: "星际链游",
+                whitepaperTitle: "PLANET白皮书",
+                cooldownTitle: "下次可领取时间:",
+                cooldownMessage: "计时器结束后可以再次领取",
+                copied: "已复制!",
+                referralDetected: "您被 {address} 邀请",
+                referralTitle: "您的推荐链接",
+                referralInfo: "分享此链接可赚取一级推荐10%和二级推荐5%的空投奖励",
+                connectWalletError: "请安装MetaMask或其他Web3钱包来连接!",
+                connectWalletFirst: "请先连接钱包!",
+                insufficientBalance: "空投费用BNB余额不足!",
+                airdropSuccess: "空投领取成功! 10,000枚PLANET代币已发送到您的钱包。",
+                airdropError: "领取空投时出错: ",
+                rewardsSuccess: "奖励领取成功!",
+                rewardsError: "领取奖励时出错: ",
+                formSuccess: "感谢您的留言! 我们将尽快与您联系。",
+                formError: "请填写所有字段!",
+                statsTitle: "推荐统计",
+                adminPlaceholder: "输入管理员地址",
+                accessStats: "访问统计",
+                exportStats: "导出到CSV",
+                
+                // Token allocation translations
+                communityTitle: "社区与用户激励",
+                teamTitle: "核心团队与早期贡献者",
+                investmentTitle: "战略投资与机构轮",
+                ecosystemTitle: "生态发展基金",
+                saleTitle: "公募/私募/空投",
+                
+                // Token use translations
+                use1: "流动性挖矿奖励",
+                use2: "生态应用激励（DApp使用、内容创作）",
+                use3: "社区治理参与奖励",
+                use4: "节点运行奖励",
+                use5: "激励核心成员长期参与",
+                use6: "包括创始人、技术团队、运营团队",
+                use7: "引入战略合作伙伴、风投机构",
+                use8: "获取资金与资源支持",
+                use9: "资助生态项目开发",
+                use10: "收购/投资互补性项目",
+                use11: "应对市场波动的储备金",
+                use12: "面向公众/合格投资者融资",
+                use13: "提升代币分散度",
+                
+                // Ecosystem translations
+                crossChainTitle: "跨链互操作",
+                crossChainDesc: "我们的跨链技术允许在不同区块链之间无缝转移资产和数据，创建一个真正互联的Web3宇宙。",
+                crossChainItem1: "在以太坊、BSC、Polygon等区块链之间桥接资产",
+                crossChainItem2: "去中心化的跨链通信协议",
+                crossChainItem3: "安全且无需信任的互操作性",
+                
+                governanceTitle: "星际治理",
+                governanceDesc: "一个去中心化的治理系统，允许PLANET持有者对生态系统发展和决策进行投票。",
+                governanceItem1: "使用PLANET代币进行链上投票",
+                governanceItem2: "提案提交和讨论平台",
+                governanceItem3: "透明且不可篡改的治理记录",
+                
+                transactionsTitle: "光速交易",
+                transactionsDesc: "我们的专有共识算法能以最低费用实现近乎即时的交易最终性。",
+                transactionsItem1: "亚秒级交易确认",
+                transactionsItem2: "微费结构",
+                transactionsItem3: "可扩展至数百万TPS",
+                
+                gamingTitle: "星际链游",
+                gamingDesc: "一个基于区块链的游戏元宇宙，玩家真正拥有资产，并可在游戏之间交易。",
+                gamingItem1: "基于NFT的游戏资产",
+                gamingItem2: "边玩边赚机制",
+                gamingItem3: "跨游戏资产互操作性",
+                
+                // Whitepaper translations
+                visionTitle: "愿景与使命",
+                visionDesc1: "PLANET正在为下一代去中心化应用程序构建基础设施。我们的使命是创建一个互联的Web3生态系统，实现跨链、跨行业和跨社区的无缝价值转移。",
+                visionDesc2: "我们设想一个未来，去中心化技术赋予个人权力，使金融民主化，并在整个银河系创造新的经济机会。",
+                
+                partnershipsTitle: "战略合作伙伴",
+                partnershipsDesc: "PLANET得到领先的区块链创新者和行业先驱的支持：",
+                
+                tokenTitle: "代币经济学",
+                tokenDesc: "PLANET代币（PLNT）是我们生态系统的原生货币，具有以下关键指标：",
+                supplyLabel: "总供应量：",
+                capLabel: "初始市值：",
+                priceLabel: "预计初始挂牌价格：",
+                allocationTitle: "代币分配与核心用途",
+                
+                projectionTitle: "价格预测",
+                initialPrice: "初始价格：$0.001",
+                projectedPrice: "预计2025年第四季度：$1.00",
+                
+                techTitle: "技术架构",
+                techDesc: "我们的多层架构结合了现有区块链技术的最佳特点：",
+                techItem1: "用于可扩展性的模块化共识协议",
+                techItem2: "用于隐私的零知识证明",
+                techItem3: "用于成本效益的乐观汇总",
+                techItem4: "跨区块链通信协议",
+                techItem5: "抗量子密码学",
+                techItem6: "AI驱动的安全监控",
+                
+                roadmapTitle: "2025-2029年路线图",
+                year1Title: "2025年 - 基础年",
+                year1Item1: "主网上线，支持跨链功能",
+                year1Item2: "代币迁移到PLANET原生链",
+                year1Item3: "PLANET生态系统上首个10个dApp",
+                year1Item4: "与5家主要交易所建立战略合作伙伴关系",
+                year1Item5: "达到100,000个活跃钱包地址",
+                
+                year2Title: "2026年 - 扩展年",
+                year2Item1: "与传统金融系统集成",
+                year2Item2: "启动PLANET DAO治理",
+                year2Item3: "100+生态系统合作伙伴",
+                year2Item4: "去中心化身份解决方案",
+                year2Item5: "达到100万活跃用户",
+                
+                year3Title: "2027年 - 企业采用",
+                year3Item1: "企业资金管理解决方案",
+                year3Item2: "为财富500强公司提供供应链跟踪",
+                year3Item3: "政府合作伙伴关系，用于数字身份",
+                year3Item4: "碳中和区块链运营",
+                year3Item5: "代币价格目标：$0.05",
+                
+                year4Title: "2028年 - 全球生态系统",
+                year4Item1: "每日10亿笔交易",
+                year4Item2: "核心协议完全去中心化",
+                year4Item3: "新兴市场全球采用",
+                year4Item4: "星际支付网络原型",
+                year4Item5: "代币价格目标：$0.15",
+                
+                year5Title: "2029年 - 星际未来",
+                year5Item1: "AI驱动的生态系统治理",
+                year5Item2: "量子计算集成",
+                year5Item3: "太空区块链节点",
+                year5Item4: "与航天机构建立合作伙伴关系",
+                year5Item5: "代币价格目标：$0.30+",
+                
+                sustainabilityTitle: "可持续性与影响",
+                sustainabilityDesc: "PLANET致力于环境可持续性：",
+                sustainabilityItem1: "负碳排放区块链运营",
+                sustainabilityItem2: "1%的交易费用于植树造林",
+                sustainabilityItem3: "与联合国气候变化倡议合作",
+                sustainabilityItem4: "能源消耗最低的权益证明共识",
+                sustainabilityItem5: "支持绿色能源项目"
+            }
+        };
+
+        let currentLanguage = 'en';
+        let currentWalletAddress = null;
+        let referralLink = '';
+        let web3;
+        let cooldownInterval;
+        let lastClaimTime = 0;
+        const COOLDOWN_DURATION = 12 * 60 * 60 * 1000; // 12小时冷却时间
+
+        // 初始化语言
+        function initLanguage() {
+            try {
+                const savedLanguage = localStorage.getItem('planetLanguage');
+                if (savedLanguage && translations[savedLanguage]) {
+                    currentLanguage = savedLanguage;
+                }
+            } catch (e) {
+                console.log('LocalStorage access denied, using default language');
+            }
+            
+            updateLanguage();
+        }
+
+        // 更新页面语言
+        function updateLanguage() {
+            const lang = translations[currentLanguage];
+            if (!lang) return;
+            
+            // 更新导航
+            const btnText = document.querySelector('.btn-text');
+            if (btnText) btnText.textContent = lang.connectWallet;
+            
+            const elementsToUpdate = {
+                '#airdrop-link': lang.airdrop,
+                '#rewards-link': lang.rewards,
+                '#ecosystem-link': lang.ecosystem,
+                '#whitepaper-link': lang.whitepaper,
+                '#contact-link': lang.contact,
+                '#stats-link': lang.stats,
+                '.hero-title': lang.heroTitle,
+                '.hero-subtitle': lang.heroSubtitle,
+                '#explore-btn': lang.exploreBtn,
+                '#airdrop-modal h2': lang.airdropTitle,
+                '#airdrop-modal p': lang.airdropText,
+                '#claim-airdrop': lang.claimAirdrop,
+                '#rewards-modal h2': lang.rewardsTitle,
+                '#rewards-modal .rewards-balance h3': lang.rewardsBalance,
+                '#claim-rewards': lang.claimRewards,
+                '#contact-modal h2': lang.contactTitle,
+                '#contact-modal .email-contact p': `${lang.emailText} <span id="contact-email">explore.the.stars1@gmail.com</span>`,
+                '#cooldown-title': lang.cooldownTitle,
+                '#cooldown-message': lang.cooldownMessage,
+                '#whitepaper-modal h2': lang.whitepaperTitle,
+                '#referral-title': lang.referralTitle,
+                '#referral-info': lang.referralInfo,
+                '#stats-title': lang.statsTitle,
+                '#admin-address': { placeholder: lang.adminPlaceholder },
+                '#access-stats': lang.accessStats,
+                '#export-stats': lang.exportStats,
+                '#cross-chain-title': lang.crossChainTitle,
+                '#cross-chain-desc': lang.crossChainDesc,
+                '#cross-chain-item1': lang.crossChainItem1,
+                '#cross-chain-item2': lang.crossChainItem2,
+                '#cross-chain-item3': lang.crossChainItem3,
+                '#governance-title': lang.governanceTitle,
+                '#governance-desc': lang.governanceDesc,
+                '#governance-item1': lang.governanceItem1,
+                '#governance-item2': lang.governanceItem2,
+                '#governance-item3': lang.governanceItem3,
+                '#transactions-title': lang.transactionsTitle,
+                '#transactions-desc': lang.transactionsDesc,
+                '#transactions-item1': lang.transactionsItem1,
+                '#transactions-item2': lang.transactionsItem2,
+                '#transactions-item3': lang.transactionsItem3,
+                '#gaming-title': lang.gamingTitle,
+                '#gaming-desc': lang.gamingDesc,
+                '#gaming-item1': lang.gamingItem1,
+                '#gaming-item2': lang.gamingItem2,
+                '#gaming-item3': lang.gamingItem3,
+                '#vision-title': lang.visionTitle,
+                '#vision-desc1': lang.visionDesc1,
+                '#vision-desc2': lang.visionDesc2,
+                '#partnerships-title': lang.partnershipsTitle,
+                '#partnerships-desc': lang.partnershipsDesc,
+                '#token-title': lang.tokenTitle,
+                '#token-desc': lang.tokenDesc,
+                '#supply-label': lang.supplyLabel,
+                '#cap-label': lang.capLabel,
+                '#price-label': lang.priceLabel,
+                '#allocation-title': lang.allocationTitle,
+                '#community-title': lang.communityTitle,
+                '#team-title': lang.teamTitle,
+                '#investment-title': lang.investmentTitle,
+                '#ecosystem-title': lang.ecosystemTitle,
+                '#sale-title': lang.saleTitle,
+                '#use-1': lang.use1,
+                '#use-2': lang.use2,
+                '#use-3': lang.use3,
+                '#use-4': lang.use4,
+                '#use-5': lang.use5,
+                '#use-6': lang.use6,
+                '#use-7': lang.use7,
+                '#use-8': lang.use8,
+                '#use-9': lang.use9,
+                '#use-10': lang.use10,
+                '#use-11': lang.use11,
+                '#use-12': lang.use12,
+                '#use-13': lang.use13,
+                '#projection-title': lang.projectionTitle,
+                '#initial-price': lang.initialPrice,
+                '#projected-price': lang.projectedPrice,
+                '#tech-title': lang.techTitle,
+                '#tech-desc': lang.techDesc,
+                '#tech-item1': lang.techItem1,
+                '#tech-item2': lang.techItem2,
+                '#tech-item3': lang.techItem3,
+                '#tech-item4': lang.techItem4,
+                '#tech-item5': lang.techItem5,
+                '#tech-item6': lang.techItem6,
+                '#roadmap-title': lang.roadmapTitle,
+                '#year1-title': lang.year1Title,
+                '#year1-item1': lang.year1Item1,
+                '#year1-item2': lang.year1Item2,
+                '#year1-item3': lang.year1Item3,
+                '#year1-item4': lang.year1Item4,
+                '#year1-item5': lang.year1Item5,
+                '#year2-title': lang.year2Title,
+                '#year2-item1': lang.year2Item1,
+                '#year2-item2': lang.year2Item2,
+                '#year2-item3': lang.year2Item3,
+                '#year2-item4': lang.year2Item4,
+                '#year2-item5': lang.year2Item5,
+                '#year3-title': lang.year3Title,
+                '#year3-item1': lang.year3Item1,
+                '#year3-item2': lang.year3Item2,
+                '#year3-item3': lang.year3Item3,
+                '#year3-item4': lang.year3Item4,
+                '#year3-item5': lang.year3Item5,
+                '#year4-title': lang.year4Title,
+                '#year4-item1': lang.year4Item1,
+                '#year4-item2': lang.year4Item2,
+                '#year4-item3': lang.year4Item3,
+                '#year4-item4': lang.year4Item4,
+                '#year4-item5': lang.year4Item5,
+                '#year5-title': lang.year5Title,
+                '#year5-item1': lang.year5Item1,
+                '#year5-item2': lang.year5Item2,
+                '#year5-item3': lang.year5Item3,
+                '#year5-item4': lang.year5Item4,
+                '#year5-item5': lang.year5Item5,
+                '#sustainability-title': lang.sustainabilityTitle,
+                '#sustainability-desc': lang.sustainabilityDesc,
+                '#sustainability-item1': lang.sustainabilityItem1,
+                '#sustainability-item2': lang.sustainabilityItem2,
+                '#sustainability-item3': lang.sustainabilityItem3,
+                '#sustainability-item4': lang.sustainabilityItem4,
+                '#sustainability-item5': lang.sustainabilityItem5
+            };
+            
+            Object.entries(elementsToUpdate).forEach(([selector, text]) => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    if (selector === '#contact-modal .email-contact p') {
+                        element.innerHTML = text;
+                    } else if (selector === '#admin-address') {
+                        element.placeholder = text.placeholder;
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+            
+            // 更新奖励信息
+            const rewardsTexts = document.querySelectorAll('#rewards-modal .rewards-info p');
+            if (rewardsTexts.length >= 4) {
+                rewardsTexts[0].innerHTML = `<strong>${lang.rewardsText1.split(':')[0]}:</strong> ${lang.rewardsText1.split(':')[1]}`;
+                rewardsTexts[1].innerHTML = `<strong>${lang.rewardsText2.split(':')[0]}:</strong> ${lang.rewardsText2.split(':')[1]}`;
+                rewardsTexts[2].textContent = lang.rewardsText3;
+                rewardsTexts[3].textContent = lang.rewardsText4;
+            }
+            
+            // 更新标签按钮
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            if (tabBtns.length >= 4) {
+                tabBtns[0].textContent = lang.crossChain;
+                tabBtns[1].textContent = lang.governance;
+                tabBtns[2].textContent = lang.transactions;
+                tabBtns[3].textContent = lang.gaming;
+            }
+        }
+
+        // 初始化语言切换器
+        function initLanguageSwitcher() {
+            const enBtn = document.getElementById('lang-en');
+            const zhBtn = document.getElementById('lang-zh');
+            
+            if (!enBtn || !zhBtn) return;
+            
+            if (currentLanguage === 'en') {
+                enBtn.classList.add('active');
+                zhBtn.classList.remove('active');
+            } else {
+                zhBtn.classList.add('active');
+                enBtn.classList.remove('active');
+            }
+            
+            enBtn.addEventListener('click', () => {
+                if (currentLanguage !== 'en') {
+                    currentLanguage = 'en';
+                    enBtn.classList.add('active');
+                    zhBtn.classList.remove('active');
+                    localStorage.setItem('planetLanguage', 'en');
+                    updateLanguage();
+                }
+            });
+            
+            zhBtn.addEventListener('click', () => {
+                if (currentLanguage !== 'zh') {
+                    currentLanguage = 'zh';
+                    zhBtn.classList.add('active');
+                    enBtn.classList.remove('active');
+                    localStorage.setItem('planetLanguage', 'zh');
+                    updateLanguage();
+                }
+            });
+        }
+
+        // 初始化粒子背景
+        function initParticles() {
+            if (typeof particlesJS !== 'function') return;
+            
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#ffffff"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        },
+                        polygon: {
+                            nb_sides: 5
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false,
+                        anim: {
+                            enable: false,
+                            speed: 1,
+                            opacity_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: 3,
+                        random: true,
+                        anim: {
+                            enable: false,
+                            speed: 40,
+                            size_min: 0.1,
+                            sync: false
+                        }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#4e54c8",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false,
+                        attract: {
+                            enable: false,
+                            rotateX: 600,
+                            rotateY: 1200
+                        }
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 140,
+                            line_linked: {
+                                opacity: 1
+                            }
+                        },
+                        bubble: {
+                            distance: 400,
+                            size: 40,
+                            duration: 2,
+                            opacity: 8,
+                            speed: 3
+                        },
+                        repulse: {
+                            distance: 200,
+                            duration: 0.4
+                        },
+                        push: {
+                            particles_nb: 4
+                        },
+                        remove: {
+                            particles_nb: 2
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        // 初始化Web3和合约
+        async function initWeb3() {
+            if (typeof window.ethereum !== 'undefined') {
+                web3 = new Web3(window.ethereum);
+                
+                try {
+                    // 请求账户访问
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    currentWalletAddress = accounts[0];
+                    updateWalletButton();
+                    generateReferralLink(currentWalletAddress);
+                    
+                    // 检查是否是管理员
+                    checkAdminStatus();
+                } catch (error) {
+                    console.error('User rejected request:', error);
+                }
+            } else {
+                console.log('Please install MetaMask or another Web3 wallet to connect!');
+            }
+        }
+
+        // 钱包连接功能
+        function initWallet() {
+            const connectBtn = document.getElementById('connect-wallet');
+            if (!connectBtn) return;
+            
+            connectBtn.addEventListener('click', async () => {
+                if (typeof window.ethereum !== 'undefined') {
+                    try {
+                        // 请求账户访问
+                        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        currentWalletAddress = accounts[0];
+                        
+                        // 更新按钮显示
+                        updateWalletButton();
+                        
+                        // 生成推广链接
+                        generateReferralLink(currentWalletAddress);
+                        
+                        // 检查是否是管理员
+                        checkAdminStatus();
+                        
+                    } catch (error) {
+                        console.error('User rejected request:', error);
+                        showNotification(translations[currentLanguage].connectWalletError, 'error');
+                    }
+                } else {
+                    showNotification(translations[currentLanguage].connectWalletError, 'error');
+                }
+            });
+            
+            // 监听账户变化
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.on('accountsChanged', (accounts) => {
+                    if (accounts.length === 0) {
+                        // 用户断开连接
+                        currentWalletAddress = null;
+                        connectBtn.innerHTML = '<i class="fas fa-wallet"></i> <span class="btn-text">' + translations[currentLanguage].connectWallet + '</span>';
+                        document.getElementById('stats-link').style.display = 'none';
+                    } else {
+                        // 账户变化
+                        currentWalletAddress = accounts[0];
+                        updateWalletButton();
+                        
+                        // 生成新的推广链接
+                        generateReferralLink(currentWalletAddress);
+                        
+                        // 检查是否是管理员
+                        checkAdminStatus();
+                    }
+                });
+            }
+        }
+
+        // 检查管理员状态
+        function checkAdminStatus() {
+            // 替换为你的管理员地址
+            const adminAddresses = [
+                '0xEEd8a015892828A832cD2BdEb19a0FFdF33eb052',
+                '0x3D76E65A3CfA079D0dd1A9276Af9eb1BE2C3C635'
+            ];
+            
+            const statsLink = document.getElementById('stats-link');
+            if (!statsLink) return;
+            
+            if (currentWalletAddress && adminAddresses.includes(currentWalletAddress.toLowerCase())) {
+                statsLink.style.display = 'block';
+            } else {
+                statsLink.style.display = 'none';
+            }
+        }
+
+        // 更新钱包按钮显示
+        function updateWalletButton() {
+            const connectBtn = document.getElementById('connect-wallet');
+            if (!connectBtn || !currentWalletAddress) return;
+            
+            const shortenedAddress = `${currentWalletAddress.substring(0, 6)}...${currentWalletAddress.substring(currentWalletAddress.length - 4)}`;
+            connectBtn.innerHTML = `<i class="fas fa-wallet"></i> ${shortenedAddress}`;
+        }
+
+        // 生成推广链接
+        function generateReferralLink(walletAddress) {
+            if (!walletAddress) return;
+            
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('ref', walletAddress);
+            referralLink = currentUrl.toString();
+            
+            // 显示推广链接部分
+            const referralSection = document.getElementById('referral-section');
+            if (referralSection) {
+                referralSection.style.display = 'block';
+                const referralInput = document.getElementById('referral-link');
+                if (referralInput) referralInput.value = referralLink;
+            }
+        }
+
+        // 空投功能
+        function initAirdrop() {
+            const claimBtn = document.getElementById('claim-airdrop');
+            if (!claimBtn) return;
+            
+            claimBtn.addEventListener('click', async () => {
+                if (typeof window.ethereum === 'undefined') {
+                    showNotification(translations[currentLanguage].connectWalletFirst, 'error');
+                    return;
+                }
+                
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length === 0) {
+                        showNotification(translations[currentLanguage].connectWalletFirst, 'error');
+                        return;
+                    }
+                    
+                    const recipient = accounts[0];
+                    
+                    // 创建合约实例
+                    const airdropContract = new web3.eth.Contract(AIRDROP_CONTRACT_ABI, AIRDROP_CONTRACT_ADDRESS);
+                    
+                    // 空投费用（0.0015 BNB）
+                    const feeAmount = web3.utils.toWei('0.0015', 'ether');
+                    
+                    // 获取推荐人地址
+                    let referrer = '0x0000000000000000000000000000000000000000';
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const refAddress = urlParams.get('ref');
+                    if (refAddress && web3.utils.isAddress(refAddress)) {
+                        referrer = refAddress;
+                    }
+                    
+                    // 禁用按钮
+                    claimBtn.disabled = true;
+                    claimBtn.textContent = "Processing...";
+                    
+                    // 调用合约方法
+                    await airdropContract.methods.claimAirdrop(referrer).send({
+                        from: recipient,
+                        value: feeAmount,
+                        gas: 200000
+                    });
+                    
+                    showNotification(translations[currentLanguage].airdropSuccess, 'success');
+                    
+                    // 记录领取时间并开始倒计时
+                    lastClaimTime = Date.now();
+                    localStorage.setItem('lastAirdropTime', lastClaimTime);
+                    startCooldownTimer();
+                    
+                    // 显示倒计时容器
+                    const cooldownContainer = document.getElementById('airdrop-cooldown');
+                    if (cooldownContainer) {
+                        cooldownContainer.style.display = 'block';
+                    }
+                    
+                } catch (error) {
+                    console.error('Airdrop error:', error);
+                    showNotification(translations[currentLanguage].airdropError + (error.message || error), 'error');
+                } finally {
+                    // 重新启用按钮
+                    claimBtn.disabled = false;
+                    claimBtn.textContent = translations[currentLanguage].claimAirdrop;
+                }
+            });
+        }
+
+        // 奖励领取功能
+        function initRewards() {
+            const claimBtn = document.getElementById('claim-rewards');
+            if (!claimBtn) return;
+            
+            claimBtn.addEventListener('click', async () => {
+                if (typeof window.ethereum === 'undefined') {
+                    showNotification(translations[currentLanguage].connectWalletFirst, 'error');
+                    return;
+                }
+                
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length === 0) {
+                        showNotification(translations[currentLanguage].connectWalletFirst, 'error');
+                        return;
+                    }
+                    
+                    const recipient = accounts[0];
+                    
+                    // 创建合约实例
+                    const rewardsContract = new web3.eth.Contract(REWARDS_CONTRACT_ABI, REWARDS_CONTRACT_ADDRESS);
+                    
+                    // 禁用按钮
+                    claimBtn.disabled = true;
+                    claimBtn.textContent = "Processing...";
+                    
+                    // 调用合约方法
+                    await rewardsContract.methods.claimRewards().send({
+                        from: recipient,
+                        gas: 200000
+                    });
+                    
+                    showNotification(translations[currentLanguage].rewardsSuccess, 'success');
+                    
+                    // 更新奖励显示
+                    updateRewardsBalance();
+                    
+                } catch (error) {
+                    console.error('Claim rewards error:', error);
+                    showNotification(translations[currentLanguage].rewardsError + (error.message || error), 'error');
+                } finally {
+                    // 重新启用按钮
+                    claimBtn.disabled = false;
+                    claimBtn.textContent = translations[currentLanguage].claimRewards;
+                }
+            });
+        }
+
+        // 更新奖励余额
+        async function updateRewardsBalance() {
+            if (!currentWalletAddress || typeof web3 === 'undefined') {
+                document.getElementById('rewards-amount').textContent = "0 PLANET";
+                return;
+            }
+            
+            try {
+                const rewardsContract = new web3.eth.Contract(REWARDS_CONTRACT_ABI, REWARDS_CONTRACT_ADDRESS);
+                const userInfo = await rewardsContract.methods.getUserInfo(currentWalletAddress).call();
+                const rewards = userInfo.rewards || 0;
+                const rewardsAmount = web3.utils.fromWei(rewards.toString(), 'ether');
+                document.getElementById('rewards-amount').textContent = `${rewardsAmount} PLANET`;
+            } catch (error) {
+                console.error('Error fetching rewards:', error);
+                document.getElementById('rewards-amount').textContent = "0 PLANET";
+            }
+        }
+
+        // 开始倒计时
+        function startCooldownTimer() {
+            const cooldownContainer = document.getElementById('airdrop-cooldown');
+            const timerDisplay = document.getElementById('countdown-timer');
+            const progressBar = document.getElementById('cooldown-progress');
+            
+            if (!cooldownContainer || !timerDisplay || !progressBar) return;
+            
+            // 显示倒计时容器
+            cooldownContainer.style.display = 'block';
+            
+            // 清除之前的定时器
+            if (cooldownInterval) clearInterval(cooldownInterval);
+            
+            // 更新倒计时显示
+            function updateTimer() {
+                const now = Date.now();
+                const elapsed = now - lastClaimTime;
+                const remaining = COOLDOWN_DURATION - elapsed;
+                
+                if (remaining <= 0) {
+                    timerDisplay.textContent = '00:00:00';
+                    progressBar.style.width = '100%';
+                    clearInterval(cooldownInterval);
+                    return;
+                }
+                
+                // 计算小时、分钟、秒
+                const hours = Math.floor(remaining / (1000 * 60 * 60));
+                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                
+                // 格式化显示
+                timerDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // 更新进度条
+                const progress = (elapsed / COOLDOWN_DURATION) * 100;
+                progressBar.style.width = `${Math.min(100, progress)}%`;
+            }
+            
+            // 立即更新一次
+            updateTimer();
+            
+            // 每秒更新一次
+            cooldownInterval = setInterval(updateTimer, 1000);
+        }
+
+        // 检查并恢复倒计时
+        function checkAndRestoreCooldown() {
+            const savedTime = localStorage.getItem('lastAirdropTime');
+            if (savedTime) {
+                lastClaimTime = parseInt(savedTime);
+                const elapsed = Date.now() - lastClaimTime;
+                
+                if (elapsed < COOLDOWN_DURATION) {
+                    startCooldownTimer();
+                    
+                    // 显示倒计时容器
+                    const cooldownContainer = document.getElementById('airdrop-cooldown');
+                    if (cooldownContainer) {
+                        cooldownContainer.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        // 移动菜单功能
+        function initMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            if (!mobileMenu || !navMenu) return;
+            
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                
+                // 防止滚动穿透
+                if (navMenu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // 点击菜单项后关闭菜单
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // 统计功能
+        function initStats() {
+            const statsLink = document.getElementById('stats-link');
+            const accessBtn = document.getElementById('access-stats');
+            const exportBtn = document.getElementById('export-stats');
+            
+            if (!statsLink || !accessBtn || !exportBtn) return;
+            
+            // 打开统计模态框
+            statsLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('stats-modal').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // 访问统计数据
+            accessBtn.addEventListener('click', () => {
+                const adminAddress = document.getElementById('admin-address').value;
+                const statsContent = document.getElementById('stats-content');
+                const refAddress = document.getElementById('ref-address');
+                
+                if (!adminAddress) {
+                    showNotification("Please enter admin address", 'error');
+                    return;
+                }
+                
+                // 替换为你的管理员地址
+                const validAdminAddresses = [
+                    '0xEEd8a015892828A832cD2BdEb19a0FFdF33eb052',
+                    '0x3D76E65A3CfA079D0dd1A9276Af9eb1BE2C3C635'
+                ];
+                
+                if (validAdminAddresses.includes(adminAddress.toLowerCase())) {
+                    statsContent.style.display = 'block';
+                    refAddress.textContent = adminAddress.substring(0, 12) + '...' + adminAddress.substring(adminAddress.length - 8);
+                } else {
+                    showNotification("Invalid admin address", 'error');
+                }
+            });
+            
+            // 导出统计数据
+            exportBtn.addEventListener('click', () => {
+                showNotification("Data exported to CSV", 'success');
+            });
+        }
+
+        // 显示通知
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            if (!notification || !notificationText) return;
+            
+            // 设置通知内容
+            notificationText.textContent = message;
+            
+            // 设置通知类型
+            notification.className = 'notification';
+            notification.classList.add(type);
+            
+            // 显示通知
+            notification.classList.add('show');
+            
+            // 3秒后隐藏通知
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // 模态框功能
+        function initModals() {
+            // 获取所有模态框和触发按钮
+            const modals = {
+                'airdrop-link': 'airdrop-modal',
+                'rewards-link': 'rewards-modal',
+                'ecosystem-link': 'ecosystem-modal',
+                'whitepaper-link': 'whitepaper-modal',
+                'contact-link': 'contact-modal',
+                'stats-link': 'stats-modal'
+            };
+            
+            // 为每个模态框添加打开/关闭逻辑
+            Object.keys(modals).forEach(linkId => {
+                const trigger = document.getElementById(linkId);
+                const modal = document.getElementById(modals[linkId]);
+                
+                if (trigger && modal) {
+                    // 打开模态框
+                    trigger.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                        
+                        // 如果是奖励模态框，更新用户信息
+                        if (modals[linkId] === 'rewards-modal') {
+                            updateRewardsBalance();
+                        }
+                        
+                        // 如果是空投模态框，检查倒计时
+                        if (modals[linkId] === 'airdrop-modal') {
+                            checkAndRestoreCooldown();
+                        }
+                    });
+                    
+                    // 关闭模态框
+                    const closeBtn = modal.querySelector('.close');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            document.body.style.overflow = '';
+                        });
+                    }
+                }
+            });
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', (e) => {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+            
+            // 生态系统标签切换
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    // 移除所有活动状态
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // 添加当前活动状态
+                    btn.classList.add('active');
+                    const tabContent = document.getElementById(tabId);
+                    if (tabContent) {
+                        tabContent.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // 探索按钮功能
+        function initExploreButton() {
+            const exploreBtn = document.getElementById('explore-btn');
+            if (!exploreBtn) return;
+            
+            exploreBtn.addEventListener('click', () => {
+                // 滚动到生态系统部分
+                const ecosystemLink = document.getElementById('ecosystem-link');
+                if (ecosystemLink) {
+                    ecosystemLink.click();
+                }
+            });
+        }
+
+        // 初始化复制推广链接功能
+        function initCopyReferral() {
+            const copyBtn = document.getElementById('copy-referral');
+            if (!copyBtn) return;
+            
+            copyBtn.addEventListener('click', () => {
+                const referralInput = document.getElementById('referral-link');
+                if (!referralInput) return;
+                
+                referralInput.select();
+                document.execCommand('copy');
+                
+                // 显示复制成功提示
+                showNotification(translations[currentLanguage].copied, 'success');
+            });
+        }
+
+        // 页面加载完成后初始化所有功能
+        document.addEventListener('DOMContentLoaded', () => {
+            // 首先初始化模态框和按钮功能
+            initModals();
+            
+            // 然后初始化其他功能
+            initLanguage();
+            initLanguageSwitcher();
+            initParticles();
+            initWeb3();
+            initWallet();
+            initCopyReferral();
+            initAirdrop();
+            initRewards();
+            initMobileMenu();
+            initStats();
+            initExploreButton();
+            
+            // 初始化完成后显示状态
+            console.log("PLANET Web3 Ecosystem initialized successfully");
+        });
+    </script>
+</body>
+</html>
