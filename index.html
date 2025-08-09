@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANET | Interstellar Web3 Ecosystem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 基础样式 */
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --dark-color: #0f0f1a;
+            --light-color: #e0e0ff;
+            --accent-color: #6a5acd;
+            --text-color: #ffffff;
+            --text-secondary: #b8b8ff;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            color: var(--text-color);
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, #000428, #004e92);
+            min-height: 100vh;
+        }
+
+        /* 星空背景 */
+        .stars, .twinkling {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: -2;
+        }
+
+        .stars {
+            background: #000 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI1IiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iMSIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjEiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI1IiBjeT0iNDAiIHI9IjEiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjMwIiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iNDUiIGN5PSIyMCIgcj0iMSIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==') repeat top center;
+            z-index: -2;
+        }
+
+        .twinkling {
+            background: transparent url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjEwIiBjeT0iMTAiIHI9IjEiIGZpbGw9IiNmZmYiIG9wYWNpdHk9IjAuNSIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iNSIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41Ii8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41Ii8+PGNpcmNsZSBjeD0iNDAiIGN5PSIzMCIgcj0iMSIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC41Ii8+PGNpcmNsZSBjeD0iNSIgY3k9IjQwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjUiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjMwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjUiLz48Y2lyY2xlIGN4PSI0NSIgY3k9IjIwIiByPSIxIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjUiLz48L3N2Zz4=') repeat top center;
+            z-index: -1;
+            animation: twinkle 200s linear infinite;
+        }
+
+        @keyframes twinkle {
+            from { background-position: 0 0; }
+            to { background-position: -10000px 5000px; }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: -1;
+        }
+
+        /* 语言切换 */
+        .language-switcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .language-switcher select {
+            background: transparent;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 120px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 5px center;
+            padding-right: 25px;
+        }
+
+        .language-switcher select option {
+            background: var(--dark-color);
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 头部 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .logo-subtext {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        /* 导航 */
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .wallet-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .wallet-btn i {
+            margin-right: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 30px;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        /* 主要内容 */
+        .main-content {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #b8b8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: linear-gradient(to bottom right, #0f0f1a, #1a1a2e);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-color);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxMCIgY3k9IjEwIiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMjAiIGN5PSI1IiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMzAiIGN5PSIxNSIgcj0iMSIgZmlsbD0iI2ZmZiIvPjxjaXJjbGUgY3g9IjQwIiBjeT0iMzAiIHI9IjEiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSI1IiBjeT0iNDAiIHI9IjEiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIxNSIgY3k9IjMwIiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iNDUiIGN5PSIyMCIgcj0iMSIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==');
+            background-size: cover;
+            background-blend-mode: overlay;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--text-color);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* 奖励模态框 */
+        .rewards-info {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .rewards-info p {
+            margin-bottom: 10px;
+        }
+
+        .rewards-balance {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .rewards-balance h3 {
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        #rewards-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        /* 生态系统模态框 */
+        .ecosystem-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .ecosystem-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--accent-color);
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-color);
+        }
+
+        .tab-btn.active {
+            color: var(--secondary-color);
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .tab-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tab-content li {
+            margin-bottom: 10px;
+        }
+
+        /* 联系表单 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .email-contact {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--accent-color);
+        }
+
+        /* 倒计时样式 */
+        .cooldown-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid var(--accent-color);
+        }
+
+        .cooldown-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--secondary-color);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border-radius: 5px;
+            transition: width 1s linear;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(15, 15, 26, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transition: right 0.3s ease;
+                z-index: 100;
+            }
+            
+            .nav-menu.active {
+                right: 0;
+            }
+            
+            .nav-menu li {
+                margin: 20px 0;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                z-index: 101;
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .wallet-btn {
+                margin-right: 0;
+            }
+            
+            .btn-text {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .ecosystem-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: left;
+                padding: 10px;
+            }
+        }
+
+        /* RTL语言支持 */
+        [dir="rtl"] {
+            direction: rtl;
+            text-align: right;
+        }
+
+        [dir="rtl"] .logo {
+            text-align: right;
+        }
+
+        [dir="rtl"] .nav-menu {
+            padding-right: 0;
+        }
+
+        [dir="rtl"] .form-group input,
+        [dir="rtl"] .form-group textarea {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空粒子背景 -->
+    <div id="particles-js"></div>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 顶部导航栏 -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">PLANET</span>
+                <span class="logo-subtext">Interstellar Web3</span>
+            </div>
+            
+            <nav class="nav">
+                <button id="connect-wallet" class="wallet-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span class="btn-text">Connect Wallet</span>
+                </button>
+                
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#" id="airdrop-link">Airdrop</a></li>
+                    <li><a href="#" id="rewards-link">Invite Rewards</a></li>
+                    <li><a href="#" id="ecosystem-link">Ecosystem</a></li>
+                    <li><a href="#" id="contact-link">Contact Us</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- 主要内容区 -->
+        <main class="main-content">
+            <section class="hero">
+                <h1 class="hero-title">Explore the Interstellar Web3 Universe</h1>
+                <p class="hero-subtitle">Join the PLANET ecosystem and be part of the decentralized future</p>
+                <button id="explore-btn" class="cta-btn">Begin Exploration</button>
+            </section>
+        </main>
+    </div>
+    
+    <!-- 语言切换 -->
+    <div class="language-switcher">
+        <select id="language-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="zh">中文</option>
+        </select>
+    </div>
+    
+    <!-- 模态框 -->
+    <div id="airdrop-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>PLANET Airdrop</h2>
+            <p>Pay 0.0015 BNB to receive 10,000 PLANET tokens</p>
+            <button id="claim-airdrop" class="cta-btn">Claim Airdrop</button>
+            
+            <!-- 倒计时容器 -->
+            <div id="airdrop-cooldown" class="cooldown-container" style="display: none;">
+                <h3 class="cooldown-title">Next Claim Available In:</h3>
+                <div class="timer-display" id="countdown-timer">12:00:00</div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="cooldown-progress"></div>
+                </div>
+                <p id="cooldown-message">You can claim again after the timer expires</p>
+            </div>
+            
+            <div id="referral-section" style="margin-top: 20px; display: none;">
+                <h3>Your Referral Link</h3>
+                <div style="display: flex; align-items: center; margin-top: 10px;">
+                    <input type="text" id="referral-link" readonly style="flex: 1; padding: 8px; border-radius: 4px; border: 1px solid #4e54c8; background: rgba(0,0,0,0.3); color: white;">
+                    <button id="copy-referral" style="margin-left: 10px; padding: 8px 15px; background: #4e54c8; color: white; border: none; border-radius: 4px; cursor: pointer;">Copy</button>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #b8b8ff;">Share this link to earn 10% from 1st generation and 5% from 2nd generation airdrops</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="rewards-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Invitation Rewards</h2>
+            <div class="rewards-info">
+                <p><strong>1st Generation:</strong> 10% of each airdrop amount</p>
+                <p><strong>2nd Generation:</strong> 5% of each airdrop amount</p>
+                <p>Rewards are triggered when the invited user successfully claims the airdrop.</p>
+                <p>You can claim your rewards at any time.</p>
+            </div>
+            <div class="rewards-balance">
+                <h3>Your Rewards Balance:</h3>
+                <p id="rewards-amount">0 PLANET</p>
+            </div>
+            <button id="claim-rewards" class="cta-btn">Claim Rewards</button>
+        </div>
+    </div>
+    
+    <div id="ecosystem-modal" class="modal ecosystem-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>PLANET Ecosystem</h2>
+            <div class="ecosystem-tabs">
+                <button class="tab-btn active" data-tab="cross-chain">Cross-Chain Interoperability</button>
+                <button class="tab-btn" data-tab="governance">Interstellar Governance</button>
+                <button class="tab-btn" data-tab="transactions">Light-Speed Transactions</button>
+                <button class="tab-btn" data-tab="gaming">Interstellar Chain Games</button>
+            </div>
+            
+            <div class="tab-content active" id="cross-chain">
+                <h3>Cross-Chain Interoperability</h3>
+                <p>Our cross-chain technology allows seamless asset and data transfer between different blockchains, creating a truly interconnected Web3 universe.</p>
+                <ul>
+                    <li>Bridge assets between Ethereum, BSC, Polygon and more</li>
+                    <li>Decentralized cross-chain communication protocol</li>
+                    <li>Secure and trustless interoperability</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="governance">
+                <h3>Interstellar Governance</h3>
+                <p>A decentralized governance system that allows PLANET holders to vote on ecosystem development and decisions.</p>
+                <ul>
+                    <li>On-chain voting with PLANET tokens</li>
+                    <li>Proposal submission and discussion platform</li>
+                    <li>Transparent and tamper-proof governance records</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="transactions">
+                <h3>Light-Speed Transactions</h3>
+                <p>Our proprietary consensus algorithm enables near-instant transaction finality with minimal fees.</p>
+                <ul>
+                    <li>Sub-second transaction confirmation</li>
+                    <li>Micro-fee structure</li>
+                    <li>Scalable to millions of TPS</li>
+                </ul>
+            </div>
+            
+            <div class="tab-content" id="gaming">
+                <h3>Interstellar Chain Games</h3>
+                <p>A metaverse of blockchain-based games where assets are truly owned by players and can be traded across games.</p>
+                <ul>
+                    <li>NFT-based game assets</li>
+                    <li>Play-to-earn mechanics</li>
+                    <li>Cross-game asset interoperability</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Contact Us</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="cta-btn">Send Message</button>
+            </form>
+            <!-- 邮箱联系位置 -->
+            <div class="email-contact">
+                <p>Or email us directly at: <span id="contact-email">explore.the.stars1@gmail.com</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 多语言支持
+        const translations = {
+            en: {
+                connectWallet: "Connect Wallet",
+                airdrop: "Airdrop",
+                rewards: "Invite Rewards",
+                ecosystem: "Ecosystem",
+                contact: "Contact Us",
+                heroTitle: "Explore the Interstellar Web3 Universe",
+                heroSubtitle: "Join the PLANET ecosystem and be part of the decentralized future",
+                exploreBtn: "Begin Exploration",
+                airdropTitle: "PLANET Airdrop",
+                airdropText: "Pay 0.0015 BNB to receive 10,000 PLANET tokens",
+                claimAirdrop: "Claim Airdrop",
+                rewardsTitle: "Invitation Rewards",
+                rewardsText1: "1st Generation: 10% of each airdrop amount",
+                rewardsText2: "2nd Generation: 5% of each airdrop amount",
+                rewardsText3: "Rewards are triggered when the invited user successfully claims the airdrop.",
+                rewardsText4: "You can claim your rewards at any time.",
+                rewardsBalance: "Your Rewards Balance:",
+                claimRewards: "Claim Rewards",
+                contactTitle: "Contact Us",
+                sendMessage: "Send Message",
+                emailText: "Or email us directly at:",
+                crossChain: "Cross-Chain Interoperability",
+                governance: "Interstellar Governance",
+                transactions: "Light-Speed Transactions",
+                gaming: "Interstellar Chain Games",
+                crossChainContent: {
+                    title: "Cross-Chain Interoperability",
+                    desc: "Our cross-chain technology allows seamless asset and data transfer between different blockchains, creating a truly interconnected Web3 universe.",
+                    points: [
+                        "Bridge assets between Ethereum, BSC, Polygon and more",
+                        "Decentralized cross-chain communication protocol",
+                        "Secure and trustless interoperability"
+                    ]
+                },
+                governanceContent: {
+                    title: "Interstellar Governance",
+                    desc: "A decentralized governance system that allows PLANET holders to vote on ecosystem development and decisions.",
+                    points: [
+                        "On-chain voting with PLANET tokens",
+                        "Proposal submission and discussion platform",
+                        "Transparent and tamper-proof governance records"
+                    ]
+                },
+                transactionsContent: {
+                    title: "Light-Speed Transactions",
+                    desc: "Our proprietary consensus algorithm enables near-instant transaction finality with minimal fees.",
+                    points: [
+                        "Sub-second transaction confirmation",
+                        "Micro-fee structure",
+                        "Scalable to millions of TPS"
+                    ]
+                },
+                gamingContent: {
+                    title: "Interstellar Chain Games",
+                    desc: "A metaverse of blockchain-based games where assets are truly owned by players and can be traded across games.",
+                    points: [
+                        "NFT-based game assets",
+                        "Play-to-earn mechanics",
+                        "Cross-game asset interoperability"
+                    ]
+                },
+                cooldownTitle: "Next Claim Available In:",
+                cooldownMessage: "You can claim again after the timer expires",
+                copied: "Copied!",
+                referralDetected: "You were referred by {address}",
+                connectWalletError: "Please install MetaMask or another Web3 wallet to connect!",
+                connectWalletFirst: "Please connect your wallet first!",
+                insufficientBalance: "Insufficient BNB balance for the airdrop fee!",
+                airdropSuccess: "Airdrop claimed successfully! 10,000 PLANET tokens have been sent to your wallet.",
+                airdropError: "Error claiming airdrop: ",
+                rewardsSuccess: "Rewards claimed successfully!",
+                rewardsError: "Error claiming rewards: ",
+                formSuccess: "Thank you for your message! We will contact you soon.",
+                formError: "Please fill in all fields!"
+            },
+            ja: {
+                connectWallet: "ウォレット接続",
+                airdrop: "エアドロップ",
+                rewards: "招待報酬",
+                ecosystem: "エコシステム",
+                contact: "お問い合わせ",
+                heroTitle: "星間Web3宇宙を探索",
+                heroSubtitle: "PLANETエコシステムに参加し、分散型未来の一部になりましょう",
+                exploreBtn: "探索を開始",
+                airdropTitle: "PLANETエアドロップ",
+                airdropText: "0.0015 BNBを支払って10,000 PLANETトークンを獲得",
+                claimAirdrop: "エアドロップを請求",
+                rewardsTitle: "招待報酬",
+                rewardsText1: "1世代目: 各エアドロップ金額の10%",
+                rewardsText2: "2世代目: 各エアドロップ金額の5%",
+                rewardsText3: "招待したユーザーがエアドロップを請求すると報酬が発生します。",
+                rewardsText4: "報酬はいつでも請求できます。",
+                rewardsBalance: "報酬残高:",
+                claimRewards: "報酬を請求",
+                contactTitle: "お問い合わせ",
+                sendMessage: "メッセージを送信",
+                emailText: "または直接メールで:",
+                crossChain: "クロスチェーン相互運用性",
+                governance: "星間ガバナンス",
+                transactions: "光速取引",
+                gaming: "星間チェーンゲーム",
+                crossChainContent: {
+                    title: "クロスチェーン相互運用性",
+                    desc: "私たちのクロスチェーン技術により、異なるブロックチェーン間でシームレスな資産とデータ転送が可能になり、真に相互接続されたWeb3宇宙が実現します。",
+                    points: [
+                        "Ethereum、BSC、Polygonなど間の資産ブリッジ",
+                        "分散型クロスチェーン通信プロトコル",
+                        "安全で信頼不要な相互運用性"
+                    ]
+                },
+                governanceContent: {
+                    title: "星間ガバナンス",
+                    desc: "PLANET保有者が生態系の開発と意思決定に投票できる分散型ガバナンスシステム。",
+                    points: [
+                        "PLANETトークンを使用したオンチェーン投票",
+                        "提案提出と議論のプラットフォーム",
+                        "透明で改ざん防止されたガバナンス記録"
+                    ]
+                },
+                transactionsContent: {
+                    title: "光速取引",
+                    desc: "私たち独自のコンセンサスアルゴリズムにより、最小限の手数料でほぼ瞬時の取引確定が可能になります。",
+                    points: [
+                        "1秒未満の取引確認",
+                        "マイクロ手数費構造",
+                        "数百万TPSにスケーラブル"
+                    ]
+                },
+                gamingContent: {
+                    title: "星間チェーンゲーム",
+                    desc: "資産がプレイヤーによって真に所有され、ゲーム間で取引可能なブロックチェーンベースのゲームのメタバース。",
+                    points: [
+                        "NFTベースのゲーム資産",
+                        "プレイトゥアーンメカニクス",
+                        "ゲーム間資産相互運用性"
+                    ]
+                },
+                cooldownTitle: "次回請求可能まで:",
+                cooldownMessage: "タイマー終了後に再度請求できます",
+                copied: "コピーしました!",
+                referralDetected: "あなたは {address} に招待されました",
+                connectWalletError: "接続するにはMetaMaskまたは別のWeb3ウォレットをインストールしてください!",
+                connectWalletFirst: "まずウォレットを接続してください!",
+                insufficientBalance: "エアドロップ手数料のためのBNB残高が不足しています!",
+                airdropSuccess: "エアドロップが正常に請求されました! 10,000 PLANETトークンがあなたのウォレットに送信されました。",
+                airdropError: "エアドロップ請求エラー: ",
+                rewardsSuccess: "報酬が正常に請求されました!",
+                rewardsError: "報酬請求エラー: ",
+                formSuccess: "メッセージありがとうございます! すぐにご連絡いたします。",
+                formError: "すべてのフィールドを入力してください!"
+            },
+            ko: {
+                connectWallet: "지갑 연결",
+                airdrop: "에어드랍",
+                rewards: "초대 보상",
+                ecosystem: "생태계",
+                contact: "문의하기",
+                heroTitle: "성간 Web3 우주 탐험",
+                heroSubtitle: "PLANET 생태계에 참여하여 탈중앙화 미래의 일부가 되세요",
+                exploreBtn: "탐험 시작",
+                airdropTitle: "PLANET 에어드랍",
+                airdropText: "0.0015 BNB를 지불하고 10,000 PLANET 토큰을 받으세요",
+                claimAirdrop: "에어드랍 받기",
+                rewardsTitle: "초대 보상",
+                rewardsText1: "1세대: 각 에어드랍 금액의 10%",
+                rewardsText2: "2세대: 각 에어드랍 금액의 5%",
+                rewardsText3: "초대한 사용자가 에어드랍을 성공적으로 받으면 보상이 발생합니다.",
+                rewardsText4: "보상은 언제든지 받을 수 있습니다.",
+                rewardsBalance: "보상 잔액:",
+                claimRewards: "보상 받기",
+                contactTitle: "문의하기",
+                sendMessage: "메시지 보내기",
+                emailText: "또는 이메일로 직접 문의:",
+                crossChain: "크로스체인 상호운용성",
+                governance: "성간 거버넌스",
+                transactions: "광속 거래",
+                gaming: "성간 체인 게임",
+                crossChainContent: {
+                    title: "크로스체인 상호운용성",
+                    desc: "우리의 크로스체인 기술은 서로 다른 블록체인 간의 원활한 자산 및 데이터 전송을 가능하게 하여 진정으로 상호 연결된 Web3 우주를 만듭니다。",
+                    points: [
+                        "이더리움, BSC, 폴리곤 등 간의 자산 브리지",
+                        "탈중앙화 크로스체인 통신 프로토콜",
+                        "안전하고 신뢰할 필요 없는 상호운용성"
+                    ]
+                },
+                governanceContent: {
+                    title: "성간 거버넌스",
+                    desc: "PLANET 보유자가 생태계 개발 및 결정에 투표할 수 있는 탈중앙화 거버넌스 시스템.",
+                    points: [
+                        "PLANET 토큰을 사용한 온체인 투표",
+                        "제안 제출 및 토론 플랫폼",
+                        "투명하고 변조 방지된 거버넌스 기록"
+                    ]
+                },
+                transactionsContent: {
+                    title: "광속 거래",
+                    desc: "우리의 독점적인 합의 알고리즘은 최소한의 수수료로 거의 즉시 거래 최종성을 가능하게 합니다.",
+                    points: [
+                        "1초 미만의 거래 확인",
+                        "마이크로 수수료 구조",
+                        "수백만 TPS로 확장 가능"
+                    ]
+                },
+                gamingContent: {
+                    title: "성간 체인 게임",
+                    desc: "자산이 플레이어가 진정으로 소유하고 게임 간에 거래할 수 있는 블록체인 기반 게임의 메타버스.",
+                    points: [
+                        "NFT 기반 게임 자산",
+                        "플레이 투 언 메커니즘",
+                        "게임 간 자산 상호운용성"
+                    ]
+                },
+                cooldownTitle: "다음 요청 가능 시간:",
+                cooldownMessage: "타이머 종료 후 다시 요청할 수 있습니다",
+                copied: "복사되었습니다!",
+                referralDetected: "{address} 에 의해 초대되었습니다",
+                connectWalletError: "연결하려면 MetaMask 또는 다른 Web3 지갑을 설치하십시오!",
+                connectWalletFirst: "먼저 지갑을 연결하세요!",
+                insufficientBalance: "에어드랍 수수료를 위한 BNB 잔액이 부족합니다!",
+                airdropSuccess: "에어드랍이 성공적으로 요청되었습니다! 10,000 PLANET 토큰이 지갑으로 전송되었습니다.",
+                airdropError: "에어드랍 요청 오류: ",
+                rewardsSuccess: "보상이 성공적으로 요청되었습니다!",
+                rewardsError: "보상 요청 오류: ",
+                formSuccess: "메시지를 보내 주셔서 감사합니다! 곧 연락드리겠습니다.",
+                formError: "모든 필드를 작성해 주세요!"
+            }
+        };
+
+        // 模拟的合约地址和ABI
+        const CONTRACT_ADDRESS = '0x1082a622c64f21bccb9885a469b0B84CbE4f2083';
+        const CONTRACT_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_treasuryWallet",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "allowance",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "needed",
+				"type": "uint256"
+			}
+		],
+		"name": "ERC20InsufficientAllowance",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "balance",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "needed",
+				"type": "uint256"
+			}
+		],
+		"name": "ERC20InsufficientBalance",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "approver",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidApprover",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "receiver",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidReceiver",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidSender",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "ERC20InvalidSpender",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "OwnableInvalidOwner",
+		"type": "error"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "OwnableUnauthorizedAccount",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "referrer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "AirdropClaimed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "referrer",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "generation",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "ReferralRewardAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "RewardClaimed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "AIRDROP_AMOUNT",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "AIRDROP_COOLDOWN",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "AIRDROP_FEE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FIRST_GEN_REWARD",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "SECOND_GEN_REWARD",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "referrer",
+				"type": "address"
+			}
+		],
+		"name": "claimAirdrop",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claimRewards",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			}
+		],
+		"name": "getUserInfo",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "referrer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rewards",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastAirdropTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "canClaimAirdrop",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "treasuryWallet",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "users",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "referrer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rewards",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "lastAirdropTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "hasClaimedAirdrop",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdrawStuckBNB",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+
+        let currentLanguage = 'en';
+        let currentWalletAddress = null;
+        let referralLink = '';
+        let contract;
+        let web3;
+        let cooldownInterval;
+        let lastClaimTime = 0;
+        const COOLDOWN_DURATION = 12 * 60 * 60 * 1000; // 12小时冷却时间
+
+        // 初始化语言
+        function initLanguage() {
+            try {
+                const savedLanguage = localStorage.getItem('planetLanguage');
+                if (savedLanguage && translations[savedLanguage]) {
+                    currentLanguage = savedLanguage;
+                }
+            } catch (e) {
+                console.log('LocalStorage access denied, using default language');
+            }
+            
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const langParam = urlParams.get('lang');
+                if (langParam && translations[langParam]) {
+                    currentLanguage = langParam;
+                    localStorage.setItem('planetLanguage', currentLanguage);
+                }
+            } catch (e) {
+                console.log('Error checking language from URL params');
+            }
+            
+            const languageSelect = document.getElementById('language-select');
+            if (languageSelect) {
+                languageSelect.value = currentLanguage;
+            }
+            
+            updateLanguage();
+        }
+
+        // 更新页面语言
+        function updateLanguage() {
+            const lang = translations[currentLanguage];
+            if (!lang) return;
+            
+            const elementsToUpdate = {
+                '.btn-text': lang.connectWallet,
+                '#airdrop-link': lang.airdrop,
+                '#rewards-link': lang.rewards,
+                '#ecosystem-link': lang.ecosystem,
+                '#contact-link': lang.contact,
+                '.hero-title': lang.heroTitle,
+                '.hero-subtitle': lang.heroSubtitle,
+                '#explore-btn': lang.exploreBtn,
+                '#airdrop-modal h2': lang.airdropTitle,
+                '#airdrop-modal p': lang.airdropText,
+                '#claim-airdrop': lang.claimAirdrop,
+                '#rewards-modal h2': lang.rewardsTitle,
+                '#rewards-modal .rewards-balance h3': lang.rewardsBalance,
+                '#claim-rewards': lang.claimRewards,
+                '#contact-modal h2': lang.contactTitle,
+                '#contact-modal button[type="submit"]': lang.sendMessage,
+                '#contact-modal .email-contact p': `${lang.emailText} <span id="contact-email">explore.the.stars1@gmail.com</span>`,
+                '.cooldown-title': lang.cooldownTitle,
+                '#cooldown-message': lang.cooldownMessage
+            };
+            
+            Object.entries(elementsToUpdate).forEach(([selector, text]) => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    if (selector === '#contact-modal .email-contact p') {
+                        element.innerHTML = text;
+                    } else {
+                        element.textContent = text;
+                    }
+                }
+            });
+            
+            const rewardsTexts = document.querySelectorAll('#rewards-modal .rewards-info p');
+            if (rewardsTexts.length >= 4) {
+                rewardsTexts[0].textContent = lang.rewardsText1;
+                rewardsTexts[1].textContent = lang.rewardsText2;
+                rewardsTexts[2].textContent = lang.rewardsText3;
+                rewardsTexts[3].textContent = lang.rewardsText4;
+            }
+            
+            const tabBtns = document.querySelectorAll('.ecosystem-tabs .tab-btn');
+            if (tabBtns.length >= 4) {
+                tabBtns[0].textContent = lang.crossChain;
+                tabBtns[1].textContent = lang.governance;
+                tabBtns[2].textContent = lang.transactions;
+                tabBtns[3].textContent = lang.gaming;
+            }
+            
+            updateEcosystemContent(lang);
+            
+            const rtlLanguages = ['ar', 'he', 'fa'];
+            document.body.setAttribute('dir', rtlLanguages.includes(currentLanguage) ? 'rtl' : 'ltr');
+        }
+
+        // 更新生态系统内容
+        function updateEcosystemContent(lang) {
+            const tabs = {
+                'cross-chain': lang.crossChainContent,
+                'governance': lang.governanceContent,
+                'transactions': lang.transactionsContent,
+                'gaming': lang.gamingContent
+            };
+
+            Object.keys(tabs).forEach(tabId => {
+                const tab = document.getElementById(tabId);
+                if (tab) {
+                    const content = tabs[tabId];
+                    const title = tab.querySelector('h3');
+                    const desc = tab.querySelector('p');
+                    const points = tab.querySelectorAll('ul li');
+                    
+                    if (title) title.textContent = content.title;
+                    if (desc) desc.textContent = content.desc;
+                    
+                    content.points.forEach((point, index) => {
+                        if (points[index]) {
+                            points[index].textContent = point;
+                        }
+                    });
+                }
+            });
+        }
+
+        // 语言切换器
+        function initLanguageSwitcher() {
+            const languageSelect = document.getElementById('language-select');
+            if (!languageSelect) return;
+            
+            languageSelect.value = currentLanguage;
+            
+            function handleLanguageChange(newLanguage) {
+                if (translations[newLanguage] && newLanguage !== currentLanguage) {
+                    currentLanguage = newLanguage;
+                    try {
+                        localStorage.setItem('planetLanguage', currentLanguage);
+                    } catch (e) {
+                        console.log('Failed to save language preference to localStorage');
+                    }
+                    updateLanguage();
+                    languageSelect.value = currentLanguage;
+                }
+            }
+            
+            languageSelect.addEventListener('change', function() {
+                handleLanguageChange(this.value);
+            });
+            
+            // TP钱包特殊处理
+            if (typeof window.tp !== 'undefined') {
+                console.log('TP Wallet detected, enhancing language support');
+                languageSelect.addEventListener('input', function() {
+                    handleLanguageChange(this.value);
+                });
+                
+                window.addEventListener('storage', (event) => {
+                    if (event.key === 'i18nextLng' || event.key === 'tp_language') {
+                        if (translations[event.newValue]) {
+                            currentLanguage = event.newValue;
+                            languageSelect.value = currentLanguage;
+                            updateLanguage();
+                        }
+                    }
+                });
+            }
+        }
+
+        // 初始化粒子背景
+        function initParticles() {
+            if (typeof particlesJS !== 'function') return;
+            
+            particlesJS('particles-js', {
+                particles: {
+                    number: {
+                        value: 80,
+                        density: {
+                            enable: true,
+                            value_area: 800
+                        }
+                    },
+                    color: {
+                        value: "#ffffff"
+                    },
+                    shape: {
+                        type: "circle",
+                        stroke: {
+                            width: 0,
+                            color: "#000000"
+                        }
+                    },
+                    opacity: {
+                        value: 0.5,
+                        random: false
+                    },
+                    size: {
+                        value: 3,
+                        random: true
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 150,
+                        color: "#4e54c8",
+                        opacity: 0.4,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: false,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
+                    }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: true,
+                            mode: "grab"
+                        },
+                        onclick: {
+                            enable: true,
+                            mode: "push"
+                        },
+                        resize: true
+                    },
+                    modes: {
+                        grab: {
+                            distance: 140,
+                            line_linked: {
+                                opacity: 1
+                            }
+                        },
+                        push: {
+                            particles_nb: 4
+                        }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        // 钱包连接功能
+        function initWallet() {
+            const connectBtn = document.getElementById('connect-wallet');
+            if (!connectBtn) return;
+            
+            connectBtn.addEventListener('click', async () => {
+                try {
+                    // 模拟钱包连接
+                    currentWalletAddress = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
+                    updateWalletButton();
+                    generateReferralLink(currentWalletAddress);
+                    checkReferral();
+                    updateUserInfo();
+                    
+                    // 显示成功消息
+                    alert('Wallet connected successfully!');
+                } catch (error) {
+                    console.error('Error connecting wallet:', error);
+                    alert('Please install a Web3 wallet like MetaMask!');
+                }
+            });
+        }
+
+        // 更新钱包按钮显示
+        function updateWalletButton() {
+            const connectBtn = document.getElementById('connect-wallet');
+            if (!connectBtn || !currentWalletAddress) return;
+            
+            const shortenedAddress = `${currentWalletAddress.substring(0, 6)}...${currentWalletAddress.substring(currentWalletAddress.length - 4)}`;
+            connectBtn.innerHTML = `<i class="fas fa-wallet"></i> ${shortenedAddress}`;
+        }
+
+        // 生成推广链接
+        function generateReferralLink(walletAddress) {
+            if (!walletAddress) return;
+            
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('ref', walletAddress);
+            referralLink = currentUrl.toString();
+            
+            const referralSection = document.getElementById('referral-section');
+            if (referralSection) {
+                referralSection.style.display = 'block';
+                const referralInput = document.getElementById('referral-link');
+                if (referralInput) referralInput.value = referralLink;
+            }
+        }
+
+        // 检查URL中的推荐参数
+        function checkReferral() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const referrer = urlParams.get('ref');
+            
+            if (referrer && currentWalletAddress && referrer.toLowerCase() !== currentWalletAddress.toLowerCase()) {
+                const shortRef = `${referrer.substring(0, 6)}...${referrer.substring(referrer.length - 4)}`;
+                alert(`You were referred by ${shortRef}`);
+            }
+        }
+
+        // 初始化复制推广链接功能
+        function initCopyReferral() {
+            const copyBtn = document.getElementById('copy-referral');
+            if (!copyBtn) return;
+            
+            copyBtn.addEventListener('click', () => {
+                const referralInput = document.getElementById('referral-link');
+                if (!referralInput) return;
+                
+                referralInput.select();
+                document.execCommand('copy');
+                
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = translations[currentLanguage].copied || 'Copied!';
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 3000);
+            });
+        }
+
+        // 更新用户信息
+        function updateUserInfo() {
+            if (!currentWalletAddress) return;
+            
+            // 模拟用户信息
+            const rewardsElement = document.getElementById('rewards-amount');
+            if (rewardsElement) {
+                rewardsElement.textContent = `5,200 PLANET`;
+            }
+        }
+
+        // 空投功能
+        function initAirdrop() {
+            const claimBtn = document.getElementById('claim-airdrop');
+            if (!claimBtn) return;
+            
+            claimBtn.addEventListener('click', async () => {
+                try {
+                    // 模拟空投领取
+                    alert(translations[currentLanguage].airdropSuccess || 'Airdrop claimed successfully!');
+                    
+                    // 记录领取时间并开始倒计时
+                    lastClaimTime = Date.now();
+                    localStorage.setItem('lastAirdropTime', lastClaimTime);
+                    startCooldownTimer();
+                    
+                    // 更新用户信息
+                    updateUserInfo();
+                } catch (error) {
+                    console.error('Airdrop error:', error);
+                    alert('Error claiming airdrop: ' + error.message);
+                }
+            });
+        }
+
+        // 奖励领取功能
+        function initRewards() {
+            const claimBtn = document.getElementById('claim-rewards');
+            if (!claimBtn) return;
+            
+            claimBtn.addEventListener('click', async () => {
+                try {
+                    // 模拟奖励领取
+                    alert(translations[currentLanguage].rewardsSuccess || 'Rewards claimed successfully!');
+                    updateUserInfo();
+                } catch (error) {
+                    console.error('Claim rewards error:', error);
+                    alert('Error claiming rewards: ' + error.message);
+                }
+            });
+        }
+
+        // 开始倒计时
+        function startCooldownTimer() {
+            const cooldownContainer = document.getElementById('airdrop-cooldown');
+            const timerDisplay = document.getElementById('countdown-timer');
+            const progressBar = document.getElementById('cooldown-progress');
+            
+            if (!cooldownContainer || !timerDisplay || !progressBar) return;
+            
+            cooldownContainer.style.display = 'block';
+            
+            if (cooldownInterval) clearInterval(cooldownInterval);
+            
+            function updateTimer() {
+                const now = Date.now();
+                const elapsed = now - lastClaimTime;
+                const remaining = COOLDOWN_DURATION - elapsed;
+                
+                if (remaining <= 0) {
+                    timerDisplay.textContent = '00:00:00';
+                    progressBar.style.width = '100%';
+                    clearInterval(cooldownInterval);
+                    return;
+                }
+                
+                // 计算小时、分钟、秒
+                const hours = Math.floor(remaining / (1000 * 60 * 60));
+                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+                
+                // 格式化显示
+                timerDisplay.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // 更新进度条
+                const progress = (elapsed / COOLDOWN_DURATION) * 100;
+                progressBar.style.width = `${Math.min(100, progress)}%`;
+            }
+            
+            updateTimer();
+            cooldownInterval = setInterval(updateTimer, 1000);
+        }
+
+        // 检查并恢复倒计时
+        function checkAndRestoreCooldown() {
+            const savedTime = localStorage.getItem('lastAirdropTime');
+            if (savedTime) {
+                lastClaimTime = parseInt(savedTime);
+                const elapsed = Date.now() - lastClaimTime;
+                
+                if (elapsed < COOLDOWN_DURATION) {
+                    startCooldownTimer();
+                }
+            }
+        }
+
+        // 移动菜单功能
+        function initMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            if (!mobileMenu || !navMenu) return;
+            
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                
+                if (navMenu.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        }
+
+        // 联系表单功能
+        function initContactForm() {
+            const contactForm = document.getElementById('contact-form');
+            if (!contactForm) return;
+            
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('name');
+                const email = document.getElementById('email');
+                const message = document.getElementById('message');
+                
+                if (!name || !email || !message) return;
+                
+                const nameValue = name.value.trim();
+                const emailValue = email.value.trim();
+                const messageValue = message.value.trim();
+                
+                if (!nameValue || !emailValue || !messageValue) {
+                    alert(translations[currentLanguage].formError || 'Please fill in all fields!');
+                    return;
+                }
+                
+                try {
+                    console.log('Form submitted:', { name: nameValue, email: emailValue, message: messageValue });
+                    alert(translations[currentLanguage].formSuccess || 'Thank you for your message!');
+                    contactForm.reset();
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    alert('Error sending message. Please try again later.');
+                }
+            });
+        }
+
+        // 模态框功能
+        function initModals() {
+            const modals = {
+                'airdrop-link': 'airdrop-modal',
+                'rewards-link': 'rewards-modal',
+                'ecosystem-link': 'ecosystem-modal',
+                'contact-link': 'contact-modal'
+            };
+            
+            Object.keys(modals).forEach(linkId => {
+                const trigger = document.getElementById(linkId);
+                const modal = document.getElementById(modals[linkId]);
+                
+                if (trigger && modal) {
+                    trigger.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        modal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                        
+                        if (modals[linkId] === 'rewards-modal') {
+                            updateUserInfo();
+                        }
+                        
+                        if (modals[linkId] === 'airdrop-modal') {
+                            checkAndRestoreCooldown();
+                        }
+                    });
+                    
+                    const closeBtn = modal.querySelector('.close');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', () => {
+                            modal.style.display = 'none';
+                            document.body.style.overflow = '';
+                        });
+                    }
+                }
+            });
+            
+            window.addEventListener('click', (e) => {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    if (e.target === modal) {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+            
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    btn.classList.add('active');
+                    const tabContent = document.getElementById(tabId);
+                    if (tabContent) {
+                        tabContent.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // 探索按钮功能
+        function initExploreButton() {
+            const exploreBtn = document.getElementById('explore-btn');
+            if (!exploreBtn) return;
+            
+            exploreBtn.addEventListener('click', () => {
+                const ecosystemLink = document.getElementById('ecosystem-link');
+                if (ecosystemLink) {
+                    ecosystemLink.click();
+                }
+            });
+        }
+
+        // 页面加载完成后初始化所有功能
+        document.addEventListener('DOMContentLoaded', () => {
+            initLanguage();
+            initLanguageSwitcher();
+            initParticles();
+            initWallet();
+            initCopyReferral();
+            initAirdrop();
+            initRewards();
+            initMobileMenu();
+            initContactForm();
+            initModals();
+            initExploreButton();
+            
+            const rtlLanguages = ['ar', 'he', 'fa'];
+            document.body.setAttribute('dir', rtlLanguages.includes(currentLanguage) ? 'rtl' : 'ltr');
+            
+            checkAndRestoreCooldown();
+        });
+    </script>
+</body>
+</html>
